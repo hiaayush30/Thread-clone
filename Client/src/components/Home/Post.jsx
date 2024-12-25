@@ -23,7 +23,7 @@ function Post(props) {
                             <span className='lg:max-w-[20vw] md:max-w-[25vw] max-w-[40vw] overflow-x-hidden whitespace-nowrap' 
                             >This is the capioghrbgvrehbgrtejmh,muy,yun of tyumym yum,uyjmkyugjmrythe prevbvtymntnrtgyrtnrtytryn5ttynost, i hope you like it
                             </span>
-                            <span>&nbsp; ...</span>
+                            <span>...</span>
                             </div>
                     </div>
                 </div>
