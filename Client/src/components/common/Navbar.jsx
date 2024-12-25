@@ -7,7 +7,7 @@ import { Link, NavLink } from 'react-router-dom';
 
 function Navbar() {
   return (
-    <div className='w-full flex justify-around items-center text-black'>
+    <div className='w-full h-full flex justify-around items-center text-black'>
       <NavLink to={'/'} className={({ isActive }) => (
         isActive ? "" : "text-slate-400"
       )}>
