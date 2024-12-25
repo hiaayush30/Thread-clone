@@ -51,6 +51,7 @@ function ProfileLayout() {
         >Reposts</NavLink>
       </div>
       <Outlet/>
+      <div className='max-md:pb-10'></div>
     </div>
   )
 }
