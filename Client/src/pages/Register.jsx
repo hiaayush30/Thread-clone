@@ -1,25 +1,68 @@
-import { Stack, Typography } from '@mui/material'
-import React from 'react'
+import { useState } from "react"
+import { useForm } from "react-hook-form"
+import { GiFeather } from "react-icons/gi";
 
-function Register() {
+export default function Register() {
+  const [login, setLogin] = useState(true);
+  const {
+    register,
+    handleSubmit,
+    watch,
+    formState: { errors },
+  } = useForm()
+
+
+  const onSubmit = (data) => {
+    console.log("Ye rha data");
+    console.log(data);
+  }
+
+
+  // console.log(watch("example")) // watch input value by passing the name of it
+
+
   return (
-    <div
-      className='w-screen h-screen flex flex-col justify-center items-center'
+    <div className="relative md:bg-[url('/bg1.png')]  bg-[url('/bg2.png')] w-screen h-screen flex flex-col justify-center items-center font-kodeMono"
       style={{
-        background: 'url("/register-bg.webp',
         backgroundRepeat: 'no-repeat',
         backgroundSize: 'cover',
       }}>
-      <div className='mt-20 my-5 flex flex-col gap-3 p-5 border-2 rounded-md bg-slate-300 opacity-90'>
-        <h3 className='font-semibold text-xl text-center'>Signup with email</h3>
-        <input className='w-80 p-1 my-3 rounded-md outline-none' type='text' placeholder='Enter your email'></input>
-        <input className='w-80 p-1 my-3 rounded-md outline-none' type='text' placeholder='Enter your username'></input>
-        <input className='w-80 p-1 my-3 rounded-md outline-none' type='text' placeholder='Enter your password'></input>
-        <button className='p-1 bg-slate-500 rounded-md text-white hover:bg-slate-400'>Sign Up</button>
-      </div>
-      <div className='text-center'>Already have an account? <span className='text-blue-500 cursor-pointer hover:underline underline-offset-2'>Login here</span></div>
+      <form onSubmit={handleSubmit(onSubmit)}
+        className='md:w-[30%] mt-20 max-md:mt-10 my-5 flex flex-col gap-3 px-5 py-4 border-2 rounded-md bg-slate-100 opacity-80 max-md:opacity-95'>
+        <div className="text-center font-semibold text-xl">{login ? "Login" : "Signup"}</div>
+
+        {!login && <div className="flex flex-col">
+          <input placeholder="Enter your email" {...register("email", {
+            required: "Email is required", pattern: {
+              value: /^[^\s@]+@[^\s@]+\.[^\s@]+$/,
+              message: "Invalid email address",
+            }
+          })}
+            className='w-[100%] p-1 my-3 rounded-md outline-none' />
+          {errors.email && <span className="text-red-600">{errors.email.message}</span>}
+        </div>}
+
+        <div className="flex flex-col">
+          <input {...register("username", { required: "Username is required", minLength: { value: 4, message: "Username must be of atleast 4 characters" } })} placeholder="Enter your username"
+            className='w-[100%] p-1 my-3 rounded-md outline-none' />
+          {errors.username && <span className="text-red-600">{errors.username.message}</span>}
+        </div>
+
+        <div className="flex flex-col">
+          <input {...register("password", { required: "password is required" })} placeholder="Enter your password"
+            className='w-[100%] p-1 my-3 rounded-md outline-none' />
+          {errors.password && <span className="text-red-600">{errors.password.message}</span>}
+        </div>
+
+        <input type="submit"
+          className='p-1 bg-slate-700 rounded-md text-white hover:bg-slate-500' />
+      </form>
+
+      <div className='text-center  px-1 py-1'>{login ? "Don't have an account ? " : "Already have an account ? "} <span onClick={() => setLogin(!login)}
+        className='text-blue-500 cursor-pointer hover:underline underline-offset-2'>{login ? "Signup" : "Login here"}</span></div>
+      <div className="absolute bottom-1 md:left-1 flex justify-center items-center">
+        <p className="hover:underline underline-offset-4 cursor-pointer">developed by Aayush </p>
+        <GiFeather /> </div>
     </div>
   )
 }
-
-export default Register

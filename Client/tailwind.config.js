@@ -6,7 +6,11 @@ export default {
   ],
 
   theme: {
-    extend: {},
+    extend: {
+      fontFamily:{
+        kodeMono: ['Kode Mono', 'sans-serif'],
+      }
+    },
   },
   plugins: [],
 }

@@ -11,7 +11,7 @@ function Error() {
     justifyContent={'center'}
     alignItems={'center'}
     sx={{
-        background:'url("errorImage.jpg")',
+        background:'url("/errorImage.jpg")',
         backgroundRepeat:"no-repeat",
         backgroundSize:'cover'
     }}
