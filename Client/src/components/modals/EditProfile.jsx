@@ -1,4 +1,4 @@
-import React, { useRef, useState } from 'react'
+import { useRef, useState } from 'react'
 import { CiEdit } from 'react-icons/ci'
 import { IoClose } from 'react-icons/io5'
 

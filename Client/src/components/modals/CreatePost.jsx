@@ -1,4 +1,4 @@
-import React, { useRef, useState } from 'react'
+import { useRef, useState } from 'react'
 import { IoCloseCircleOutline, IoImages } from 'react-icons/io5'
 
 function CreatePost({ setIsOpen }) {

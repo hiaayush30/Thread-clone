@@ -6,7 +6,7 @@ import { useState } from "react";
 
 function Header() {
   const navigate = useNavigate();
-  const [menuOpen, setMenuOpen] = useState(true);
+  const [menuOpen, setMenuOpen] = useState(false);
   return (
     <>
       <div className='max-md:hidden flex h-20 justify-around items-center sticky top-0 py-1 md:my-3'>

@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import { useState } from 'react'
 import { AiOutlineRetweet } from 'react-icons/ai';
 import { FaRegComment, FaRegHeart, FaRegShareSquare } from 'react-icons/fa';
 import { IoIosMore } from "react-icons/io";
