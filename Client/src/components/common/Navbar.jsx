@@ -18,11 +18,10 @@ function Navbar() {
       )}>
         <IoSearch size={32} className='cursor-pointer hover:scale-110 transition-all duration-300 ease-in-out' />
       </NavLink>
-      <NavLink to={'/yo'} className={({ isActive }) => (
-        isActive ? "" : "text-slate-400"
-      )}>
-        <FaEdit size={32} className='cursor-pointer hover:scale-110 transition-all duration-300 ease-in-out' />
-      </NavLink>
+      <div className="text-slate-400">
+        <FaEdit size={32}
+         className='cursor-pointer hover:scale-110 transition-all duration-300 ease-in-out' />
+      </div>
       <NavLink to={'/yo'} className={({ isActive }) => (
         isActive ? "" : "text-slate-400"
       )}>

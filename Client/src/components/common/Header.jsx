@@ -19,7 +19,7 @@ function Header() {
           <Navbar />
           {/* seperate component as we have to use this in mobile format */}
         </div>
-        <RiMenu3Fill size={32} className='cursor-pointer' />
+        <RiMenu3Fill size={32} className='cursor-pointer text-gray-500' />
       </div>
       {/* for less than medium screens */}
       <div className="md:hidden">
@@ -31,9 +31,9 @@ function Header() {
             onClick={() => navigate('/')}
             className='cursor-pointer hover:scale-110 transition-all h-20 w-32 p-3'
           />
-          <RiMenu3Fill size={30} className='cursor-pointer absolute right-5' />
+          <RiMenu3Fill size={30} className='cursor-pointer absolute right-5 text-gray-500' />
         </div>
-        <div className="fixed bottom-0 bg-blue-100 right-0 left-0 p-1 z-20 opacity-95">
+        <div className="fixed bottom-0 bg-blue-100 right-0 left-0 p-1 z-20 pt-2 opacity-95">
           <Navbar />
         </div>
       </div>

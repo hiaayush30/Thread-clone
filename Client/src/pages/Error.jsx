@@ -31,8 +31,11 @@ function Error() {
             <Typography variant="h3">Oop`s</Typography>
             <Typography variant="h3">you're lost</Typography>
             <button
-            onClick={()=>nav('/')} 
+            onClick={()=>nav(-1)} 
             className="p-1 bg-blue-900 text-white rounded-md hover:bg-blue-800">Go Back</button>
+            <button
+            onClick={()=>nav('/')} 
+            className="p-1 bg-blue-900 text-white rounded-md hover:bg-blue-800">Go to Home</button>
         </Stack>
     </Stack>
   )

@@ -1,8 +1,10 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { FaInstagram } from 'react-icons/fa'
 import { Link, NavLink, Outlet } from 'react-router-dom'
+import EditProfile from '../../../components/modals/EditProfile';
 
 function ProfileLayout() {
+  const [editProfile,setEditProfile]=useState(false);
   return (
     <div className='flex flex-col md:w-[50vw] mx-auto w-[90vw]'>
       <div className='p-1 flex flex-col gap-4 mt-10'>
@@ -34,7 +36,8 @@ function ProfileLayout() {
           </div>
         </div>
       </div>
-      <button className='border rounded-lg my-5 py-1 font-semibold hover:bg-slate-100'
+      <button onClick={()=>setEditProfile(true)}
+      className='border rounded-lg my-5 py-1 font-semibold hover:bg-slate-100'
       >Edit Profile</button>
       <div className='flex justify-center gap-0 border-b'>
         <NavLink to={'/profile/threads/1'}
@@ -52,6 +55,7 @@ function ProfileLayout() {
       </div>
       <Outlet/>
       <div className='max-md:pb-10'></div>
+      {editProfile && <EditProfile setEditProfile={setEditProfile}/>}
     </div>
   )
 }
