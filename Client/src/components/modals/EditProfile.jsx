@@ -18,7 +18,7 @@ function EditProfile({ setEditProfile }) {
         </button>
         <div className='flex flex-col justify-center items-center gap-2'>
           <div className='font-semibold pt-5'>Edit Profile</div>
-          <div className='rounded-full bg-slate-800 w-14 h-14 md:w-20 md:h-20 flex justify-center items-center'>
+          <div className='rounded-full bg-slate-800 w-20 h-20 md:w-20 md:h-20 flex justify-center items-center'>
             <img src={profilePic} alt='username' className='text-white'></img>
           </div>
           <button onClick={()=>imageInputRef.current.click()}
