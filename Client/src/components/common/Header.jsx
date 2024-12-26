@@ -26,7 +26,7 @@ function Header() {
           <RiMenu3Fill color={menuOpen && 'black'}
           onClick={() => setMenuOpen(!menuOpen)}
             size={32} className={` transition-all duration-300 cursor-pointer text-gray-500 ${menuOpen && 'rotate-180'}`} />
-          {menuOpen && <MainMenu />}
+          {menuOpen && <MainMenu setMenuOpen={setMenuOpen}/>}
         </div>
       </div>
       {/* for less than medium screens */}
@@ -42,7 +42,7 @@ function Header() {
           <div className="absolute right-5">
             <RiMenu3Fill color={menuOpen && 'black'} onClick={() => setMenuOpen(!menuOpen)}
               size={32} className={` transition-all duration-300 cursor-pointer text-gray-500 ${menuOpen && 'rotate-180'}`} />
-            {menuOpen && <MainMenu />}
+            {menuOpen && <MainMenu setMenuOpen={setMenuOpen}/>}
           </div>
         </div>
         <div className="fixed bottom-0 bg-blue-100 right-0 left-0 p-1 z-20 pt-2 opacity-95">

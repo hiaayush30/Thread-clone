@@ -1,11 +1,13 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { AiOutlineRetweet } from 'react-icons/ai';
 import { FaRegComment, FaRegHeart, FaRegShareSquare } from 'react-icons/fa';
 import { IoIosMore } from "react-icons/io";
 import { Link, useNavigate } from 'react-router-dom';
+import PostMenu from '../menu/PostMenu';
 
 function Post(props) {
     const navigate = useNavigate();
+    const [menuOpen,setMenuOpen]=useState(false);
     return (
         <div
             className='cursor-pointer py-5 hover:shadow-xl shadow-black p-2 transition-all duration-300 ease-in-out max-w-[90vw] md:max-w-[70vw] lg:max-w-[35vw] mx-auto'>
@@ -31,8 +33,11 @@ function Post(props) {
                     <div>
                         1d
                     </div>
-                    <div>
-                        <IoIosMore className='cursor-pointer text-gray-500' />
+                    <div className='relative'>
+                        <IoIosMore onClick={()=>setMenuOpen(!menuOpen)}
+                        className={`transition-all duration-200 hover:bg-slate-100 rounded-md cursor-pointer text-gray-500
+                        ${menuOpen && 'rotate-90 text-black'}`} />
+                        {menuOpen && <PostMenu/>}
                     </div>
                 </div>
             </div>
