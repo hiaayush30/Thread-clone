@@ -31,7 +31,7 @@ export default function Register() {
         className='transition-all duration-200 ease-in-out md:w-[30%] mt-20 max-md:mt-10 my-5 flex flex-col gap-3 px-5 py-4 border-2 rounded-md bg-slate-100 opacity-80 max-md:opacity-95'>
         <div className="text-center font-semibold text-xl">{login ? "Login" : "Signup"}</div>
 
-        {!login && <div className="flex flex-col">
+        <div className="flex flex-col">
           <input placeholder="Enter your email" {...register("email", {
             required: "Email is required", pattern: {
               value: /^[^\s@]+@[^\s@]+\.[^\s@]+$/,
@@ -40,13 +40,13 @@ export default function Register() {
           })}
             className='w-[100%] p-1 my-3 rounded-md outline-none' />
           {errors.email && <span className="text-red-600">{errors.email.message}</span>}
-        </div>}
+        </div>
 
-        <div className="flex flex-col">
+        {!login && <div className="flex flex-col">
           <input {...register("username", { required: "Username is required", minLength: { value: 4, message: "Username must be of atleast 4 characters" } })} placeholder="Enter your username"
             className='w-[100%] p-1 my-3 rounded-md outline-none' />
           {errors.username && <span className="text-red-600">{errors.username.message}</span>}
-        </div>
+        </div>}
 
         <div className="flex flex-col">
           <input {...register("password", { required: "password is required" })} placeholder="Enter your password"
