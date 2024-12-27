@@ -1,6 +1,8 @@
 const { validateSignupSchema, validateLoginSchema, checkExistingEmail } = require('../services/user');
 const { UserModel } = require('../modals/User');
 const { CREATED, BAD_REQUEST, INTERNAL_SERVER_ERROR, OK } = require('../constants/statusCodes');
+const formidable = require('formidable');
+const cloudinary = require('../config/cloudinary');
 
 const userSignup = async (req, res) => {
     const validBody = validateSignupSchema(req.body);
@@ -122,7 +124,7 @@ const followUser = async (req, res) => {
     try {
         const userId = req.params.id;
         if (!userId) return res.status(BAD_REQUEST).json({ message: "user id required" })
-        if (userId == req._id) {
+        if (userId == req.user._id) {
             return res.status(BAD_REQUEST).json({
                 message: 'cannot follow yourself'
             })
@@ -130,18 +132,18 @@ const followUser = async (req, res) => {
         const user = await UserModel.findOne({ _id: userId });
         if (!user) return res.status(BAD_REQUEST).json({ message: 'user not found' });
 
-        if (user.followers.includes(req._id)) {
+        if (user.followers.includes(req.user._id)) {
             await UserModel.findByIdAndUpdate(user._id, {
-                $pull: { followers: req._id }//pull takes something out of an array
-            },{new:true})
+                $pull: { followers: req.user._id }//pull takes something out of an array
+            }, { new: true })
             // By default, findByIdAndUpdate returns the document before the update is applied.
             return res.status(OK).json({
                 message: `you unfollowed ${user.username}`
             })
         } else {
             await UserModel.findByIdAndUpdate(user._id, {
-                $push: { followers: req._id }
-            },{new:true})
+                $push: { followers: req.user._id }
+            }, { new: true })
             return res.status(OK).json({
                 message: `you followed ${user.username}`
             })
@@ -154,10 +156,54 @@ const followUser = async (req, res) => {
     }
 }
 
+const updateProfile = async (req, res) => {
+    try {
+        const form = formidable({});
+        form.parse(req, async (err, fields, files) => {
+            if (err) return res.status(BAD_REQUEST).json({ message: "Formidable error:" + err })
+            console.log({ fields, files });
+            if (fields.text) {
+                await UserModel.findByIdAndUpdate(req.user._id, { bio: fields.text }, { new: true });
+                //username and email will not be updated
+            }
+            if (files.media) {
+                if (req.user.public_id) {  //delete exisiting image
+                    await cloudinary.uploader.destroy(req.user.public_id, (error, result) => {
+                        console.log({ error, result })
+                    });
+                }
+                const uploadedImage = await cloudinary.uploader.upload(files.media.filepath, {
+                    folder: 'Threads_clone/Profiles',
+                    // public_id   //you can give you own public id if you want
+                })
+                if (!uploadedImage) {
+                    return res.status(INTERNAL_SERVER_ERROR).json({
+                        message: "Error while uploading pic"
+                    })
+                }
+                console.log(uploadedImage)
+                await UserModel.findByIdAndUpdate(req.user._id, {
+                    profilePic: uploadedImage.secure_url,
+                    public_id: uploadedImage.public_id
+                }, { new: true })
+                return res.status(CREATED).json({
+                    message: 'profile updated succcessfully'
+                })
+            }
+        })
+    } catch (err) {
+        console.log('update profile error:' + err)
+        return res.status(INTERNAL_SERVER_ERROR).json({
+            message: 'internal server error'
+        })
+    }
+}
+
 module.exports = {
     userSignup,
     userLogin,
     userInfo,
     followUser,
+    updateProfile,
     logout
 }

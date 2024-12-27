@@ -10,6 +10,7 @@ function EditProfile({ setEditProfile }) {
   const imageInputRef=useRef();
   const handleInputImage=(e)=>{
     setProfilePic(URL.createObjectURL(e.target.files[0]));
+    // This URL is a blob: URL that provides access to the file's binary data stored in memory.
   }
     return (
     <div className='flex justify-center items-center fixed inset-0'>
@@ -28,6 +29,8 @@ function EditProfile({ setEditProfile }) {
           ><CiEdit /></button>
           <input onChange={handleInputImage}
           ref={imageInputRef} type='file' accept='images/*' className='hidden'/>
+          {/* accept="image/png, image/jpeg",video/mp4, video/webm,audio/mp3, audio/wav" */}
+          {/* can pass multiple arguments to accept like above */}
         </div>
         <div className='flex flex-col m-3 my-5 gap-2'>
           <div className='font-semibold'>Username</div>
