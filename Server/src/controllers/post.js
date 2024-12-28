@@ -1,9 +1,9 @@
 const cloudinary = require('../config/cloudinary');
 const formidable = require('formidable');
 const { INTERNAL_SERVER_ERROR, BAD_REQUEST, CREATED, OK, FORBIDDEN } = require('../constants/statusCodes');
-const { UserModel } = require('../modals/User');
-const { PostModel } = require('../modals/Post');
-const { CommentModel } = require('../modals/Comment');
+const { UserModel } = require('../models/User');
+const { PostModel } = require('../models/Post');
+const { CommentModel } = require('../models/Comment');
 
 const addPost = async (req, res) => {
     try {

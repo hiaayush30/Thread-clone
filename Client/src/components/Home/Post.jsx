@@ -58,7 +58,7 @@ function Post(props) {
                     <FaRegShareSquare size={20} className='cursor-pointer' />
                 </div>
             </div>
-            <div className='mx-11 flex gap-3 text-slate-500'>
+            <div className='mx-11 flex gap-3 text-slate-500 '>
                 <div className="relative w-8 h-8">
                     {/* Bottom Circle */}
                     <div className="absolute w-8 h-8 bg-blue-500 rounded-full left-0 top-0 text-white flex justify-center items-center">+2</div>

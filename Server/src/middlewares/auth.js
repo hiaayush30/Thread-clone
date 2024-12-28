@@ -1,8 +1,6 @@
 const jwt = require('jsonwebtoken');
 const { FORBIDDEN } = require('../constants/statusCodes');
-const { UserModel } = require('../modals/User');
-const { PostModel } = require('../modals/Post');
-const { CommentModel } = require('../modals/Comment');
+const { UserModel } = require('../models/User');
 
 const userAuth = async (req, res, next) => {
     let token = req.cookies.token;

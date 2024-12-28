@@ -1,7 +1,10 @@
 import { useRef, useState } from 'react'
 import { IoCloseCircleOutline, IoImages } from 'react-icons/io5'
+import { useDispatch} from 'react-redux'
+import { setOpenAddPostModel } from '../../redux/features/service/serviceSlice';
 
-function CreatePost({ setIsOpen }) {
+function CreatePost() {
+    const dispatch=useDispatch();
     const [text, setText] = useState('');
     const [media, setMedia] = useState();
     const mediaRef = useRef();
@@ -11,8 +14,8 @@ function CreatePost({ setIsOpen }) {
     return (
         <div className='fixed inset-0 flex justify-center items-center z-30'>
             <div className='fixed inset-0 bg-zinc-800 opacity-85'></div>
-            <div className='gap-3 relative z-40 bg-white rounded-lg md:w-[55vw] flex flex-col justify-between'>
-                <IoCloseCircleOutline size={20} onClick={() => setIsOpen(false)} className='absolute top-1 right-1 cursor-pointer' />
+            <div className='max-w-[90vw] gap-3 relative z-40 bg-white rounded-lg md:w-[55vw] flex flex-col justify-between'>
+                <IoCloseCircleOutline size={20} onClick={() => dispatch(setOpenAddPostModel(false))} className='absolute top-1 right-1 cursor-pointer' />
                 <div className='flex gap-3 p-5'>
                     <div className='rounded-full bg-slate-800 w-12 h-12 flex justify-center items-center'>
                         <img src='' alt='AJ' className='text-white'></img>

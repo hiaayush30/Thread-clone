@@ -1,6 +1,6 @@
 const zod = require('zod');
 const bcrypt = require('bcrypt');
-const { UserModel } = require('../modals/User');
+const { UserModel } = require('../models/User');
 
 const validateSignupSchema = (body) => {
     const signupSchema = zod.object({

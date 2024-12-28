@@ -4,8 +4,12 @@ import { FaEdit } from "react-icons/fa";
 import { FaHeart } from "react-icons/fa";
 import { CgProfile } from "react-icons/cg";
 import { Link, NavLink } from 'react-router-dom';
+import { useDispatch, useSelector } from "react-redux";
+import { setOpenAddPostModel } from "../../redux/features/service/serviceSlice";
 
 function Navbar() {
+  const dispatch = useDispatch();
+  const openAddPostModel = useSelector(state=>state.service.openAddPostModel);
   return (
     <div className='w-full h-full flex justify-around items-center text-black'>
       <NavLink to={'/'} className={({ isActive }) => (
@@ -20,7 +24,8 @@ function Navbar() {
       </NavLink>
       <div className="text-slate-400">
         <FaEdit size={32}
-         className='cursor-pointer hover:scale-110 transition-all duration-300 ease-in-out' />
+          onClick={() => dispatch(setOpenAddPostModel(!openAddPostModel))}
+          className='cursor-pointer hover:scale-110 transition-all duration-300 ease-in-out' />
       </div>
       <NavLink to={'/yo'} className={({ isActive }) => (
         isActive ? "" : "text-slate-400"

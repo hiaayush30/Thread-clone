@@ -1,5 +1,5 @@
 const { validateSignupSchema, validateLoginSchema, checkExistingEmail } = require('../services/user');
-const { UserModel } = require('../modals/User');
+const { UserModel } = require('../models/User');
 const { CREATED, BAD_REQUEST, INTERNAL_SERVER_ERROR, OK } = require('../constants/statusCodes');
 const formidable = require('formidable');
 const cloudinary = require('../config/cloudinary');

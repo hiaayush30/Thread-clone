@@ -3,8 +3,11 @@ import Navbar from './Navbar'
 import { useNavigate } from 'react-router-dom';
 import MainMenu from "../menu/MainMenu";
 import { useState } from "react";
+import CreatePost from "../modals/CreatePost";
+import { useSelector } from "react-redux";
 
 function Header() {
+  const openAddPostModel = useSelector(state=>state.service.openAddPostModel);
   const navigate = useNavigate();
   const [menuOpen, setMenuOpen] = useState(false);
   return (
@@ -49,6 +52,7 @@ function Header() {
           <Navbar />
         </div>
       </div>
+        {openAddPostModel && <CreatePost/>}
     </>
   )
 }
