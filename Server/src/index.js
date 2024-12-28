@@ -5,6 +5,7 @@ const express = require("express");
 const { connectToDatabase } = require('./config/db');
 const cookieParser = require('cookie-parser');
 const { userRouter } = require('./routes/user');
+const { postRouter } = require('./routes/post');
 const app = express();
 
 app.use(cors({
@@ -16,6 +17,7 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname,'public')));
 
 app.use('/api/user',userRouter);
+app.use('/api/post',postRouter);
 
 connectToDatabase()
     .then(() => {

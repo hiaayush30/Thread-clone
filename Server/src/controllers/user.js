@@ -156,16 +156,12 @@ const followUser = async (req, res) => {
     }
 }
 
-const updateProfile = async (req, res) => {
+const updateProfile = async (req, res) => {  //only updating bio and profilePic
     try {
         const form = formidable({});
         form.parse(req, async (err, fields, files) => {
             if (err) return res.status(BAD_REQUEST).json({ message: "Formidable error:" + err })
             console.log({ fields, files });
-            if (fields.text) {
-                await UserModel.findByIdAndUpdate(req.user._id, { bio: fields.text }, { new: true });
-                //username and email will not be updated
-            }
             if (files.media) {
                 if (req.user.public_id) {  //delete exisiting image
                     await cloudinary.uploader.destroy(req.user.public_id, (error, result) => {
@@ -184,7 +180,8 @@ const updateProfile = async (req, res) => {
                 console.log(uploadedImage)
                 await UserModel.findByIdAndUpdate(req.user._id, {
                     profilePic: uploadedImage.secure_url,
-                    public_id: uploadedImage.public_id
+                    public_id: uploadedImage.public_id,
+                    ...(fields.text && { bio: fields.text }) // Add 'bio' only if 'fields.text' exists
                 }, { new: true })
                 return res.status(CREATED).json({
                     message: 'profile updated succcessfully'
@@ -199,11 +196,46 @@ const updateProfile = async (req, res) => {
     }
 }
 
+const searchUser = async (req, res) => {
+    try {
+        const { query } = req.params;
+        const users = await UserModel.find({
+            $or: [
+                { username: { $regex: query, $options: "i" } },// "i" for case-insensitive search
+                { email: { $regex: query, $options: "i" } }
+            ]
+        });
+        res.status(OK).json({
+            users
+        })
+    } catch (err) {
+        console.log('search user error:' + err);
+        res.status(INTERNAL_SERVER_ERROR).json({
+            message: 'internal server error'
+        })
+    }
+}
+
+const myInfo = async (req, res) => {
+    try {
+       res.status(OK).json({
+        me:req.user
+       })
+    } catch (err) {
+        console.log('myInfo Error:' + err);
+        res.status(INTERNAL_SERVER_ERROR).json({
+            message: 'internal server error'
+        })
+    }
+}
+
 module.exports = {
     userSignup,
     userLogin,
     userInfo,
     followUser,
     updateProfile,
+    searchUser,
+    myInfo,
     logout
 }
