@@ -15,14 +15,15 @@ const userAuth = async (req, res, next) => {
         token = token.split(' ')[1]
         const decoded = jwt.verify(token, process.env.JWT_SECRET);
         req.user = await UserModel.findById(decoded._id)
+            .select('-password')
             .populate('followers')
             .populate('threads')
             .populate('replies')
             .populate('reposts')
-            if(!req.user) throw new Error('user not found')
+        if (!req.user) throw new Error('user not found')
         next();
     } catch (err) {
-        console.log('auth error:'+err);
+        console.log('auth error:' + err);
         return res.status(FORBIDDEN).json({
             message: 'invalid or expired token,please login again'
         })

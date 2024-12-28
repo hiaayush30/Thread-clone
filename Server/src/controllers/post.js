@@ -7,16 +7,19 @@ const { CommentModel } = require('../modals/Comment');
 
 const addPost = async (req, res) => {
     try {
-        const form = formidable({});
+        const form = formidable({
+            //uploadDir: '/path/to/uploads',
+            //keepExtensions: true, // Keep original file extensions
+        });
         let uploadedImage;
-        form.parse(req, async (err, feilds, files) => {
+        form.parse(req, async (err, fields, files) => {
             if (err) {
                 console.log('formidable parsing error:' + err);
                 res.status(INTERNAL_SERVER_ERROR).json({
                     message: 'internal server error in file parsing'
                 })
             }
-            if (!feilds.text) return res.status(BAD_REQUEST).json({
+            if (!fields.text) return res.status(BAD_REQUEST).json({
                 message: 'text feild cannot be empty'
             })
             if (files.media) {
@@ -31,7 +34,7 @@ const addPost = async (req, res) => {
             }
             const post = await PostModel.create({
                 admin: req.user._id,
-                text: feilds.text,
+                text: fields.text,
                 ...(files.media && {
                     media: uploadedImage.secure_url,
                     public_id: uploadedImage.public_id
@@ -63,9 +66,10 @@ const getAllPosts = async (req, res) => {
             //descending order ie the latest at the top  
             .skip((page - 1) * limit)
             .limit(limit)
-            .populate('likes')
-            .populate('admin')
-            .populate({ path: 'comments', populate: 'admin' })  //to get the names of those who commented
+            .populate({ path: 'likes', select: '-password' })
+            .populate({ path: 'admin', select: '-password' })
+            .populate({ path: 'comments', populate: { path: 'admin', select: '-password' } })
+        //to get the names of those who commented
         res.status(OK).json({
             message: 'posts fetched successfully',
             posts
@@ -81,37 +85,38 @@ const getAllPosts = async (req, res) => {
 const deletePost = async (req, res) => {
     try {
         const { postId } = req.params;
-        const post = await PostModel.findById({_id:postId});
-        if(!post) return res.status(BAD_REQUEST).json({
-            message:'post not found'
+        if (!postId) return res.status(BAD_REQUEST).json({ message: 'post id required' });
+        const post = await PostModel.findById({ _id: postId });
+        if (!post) return res.status(BAD_REQUEST).json({
+            message: 'post not found'
         });
-       if(post.admin.toString() !== req.user._id.toString()){
-        return res.status(FORBIDDEN).json({
-            message:'cannot delete post of another user'
-        })
-       }
-       //all cehcks done
-       if(post.media){
-        await cloudinary.uploader.destroy(post.public_id,{},(err,result)=>{
-            console.log({err,result});
-        });
-       }
-       await UserModel.updateMany({ 
-        $or:[{threads:postId},{replies:postId},{reposts:postId}] //search for these docs
-       },{
-        $pull:{  //delete these
-            replies:postId,
-            reposts:postId,
-            threads:postId
+        if (post.admin.toString() !== req.user._id.toString()) {
+            return res.status(FORBIDDEN).json({
+                message: 'cannot delete post of another user'
+            })
         }
-       })
-       await CommentModel.deleteMany({
-        post:postId
-       });
-       await PostModel.findByIdAndDelete(postId);
-       res.status(OK).json({
-        message:'post deleted'
-       })
+        //all cehcks done
+        if (post.media) {
+            await cloudinary.uploader.destroy(post.public_id, {}, (err, result) => {
+                console.log({ err, result });
+            });
+        }
+        await UserModel.updateMany({
+            $or: [{ threads: postId }, { replies: postId }, { reposts: postId }] //search for these docs
+        }, {
+            $pull: {  //delete these
+                replies: postId,
+                reposts: postId,
+                threads: postId
+            }
+        })
+        await CommentModel.deleteMany({
+            post: postId
+        });
+        await PostModel.findByIdAndDelete(postId);
+        res.status(OK).json({
+            message: 'post deleted'
+        })
     } catch (err) {
         console.log('delete post err' + err);
         res.status(INTERNAL_SERVER_ERROR).json({
@@ -120,8 +125,97 @@ const deletePost = async (req, res) => {
     }
 }
 
+const likePost = async (req, res) => {
+    try {
+        const { postId } = req.params;
+        if (!postId) return res.status(BAD_REQUEST).json({ message: 'post id required' })
+        const post = await PostModel.findOne({ _id: postId });
+        if (!post) {
+            return res.status(BAD_REQUEST).json({
+                message: 'post not found'
+            })
+        }
+        if (post.likes.includes(req.user._id)) {
+            post.likes.pop(req.user._id);
+            await post.save();
+            return res.status(OK).json({
+                message: 'post unliked'
+            })
+        }
+        post.likes.push(req.user._id);
+        await post.save();
+        return res.status(OK).json({
+            message: 'post liked'
+        })
+    } catch (err) {
+        console.log('likePost error:' + err);
+        res.status(INTERNAL_SERVER_ERROR).json({
+            message: 'Internal server error'
+        })
+    }
+}
+
+const repost = async (req, res) => {
+    try {
+        const { postId } = req.params;
+        if (!postId) return res.status(BAD_REQUEST).json({ message: 'post id required!' })
+        const post = await PostModel.findById(postId);
+        if (!post) return res.status(BAD_REQUEST).json({
+            message: 'post not found!'
+        })
+        const alreadyReposted = req.user.reposts.some(repost => repost._id.toString() === postId.toString());
+        // some() iterates through the array and checks if at least one object meets the condition.
+        //returns true or false
+        if (alreadyReposted) {
+            return res.status(BAD_REQUEST).json({
+                message: 'already reposted'
+            })
+        }
+        await UserModel.findByIdAndUpdate(req.user._id, {
+            $push: { reposts: postId }
+        })
+        return res.status(OK).json({
+            message: 'post reposted'
+        })
+    } catch (err) {
+        console.log('repost error' + err);
+        res.status(INTERNAL_SERVER_ERROR).json({
+            message: 'internal server error in repost'
+        })
+    }
+}
+
+const singlePost = async (req, res) => {
+    try {
+        const { postId } = req.params;
+        if (!postId) {
+            return res.status(BAD_REQUEST).json({
+                message: 'post id required!'
+            })
+        }
+        const post = await PostModel.findById(postId)
+            .populate({ path: 'admin', select: '-password' })
+            .populate({ path: 'likes', select: '-password' })
+            .populate({ path: 'comments', populate: { path: 'admin', select: '-password' } })
+        if (!post) return res.status(BAD_REQUEST).json({ message: 'post not found' });
+        res.status(OK).json({
+            message: 'post fetched successfully',
+            post
+        })
+
+    } catch (err) {
+        console.log('single plost error:' + err);
+        res.status(INTERNAL_SERVER_ERROR).json({
+            message: 'internal server error'
+        })
+    }
+}
+
 module.exports = {
     addPost,
     getAllPosts,
-    deletePost
+    deletePost,
+    likePost,
+    repost,
+    singlePost
 }

@@ -6,6 +6,7 @@ const { connectToDatabase } = require('./config/db');
 const cookieParser = require('cookie-parser');
 const { userRouter } = require('./routes/user');
 const { postRouter } = require('./routes/post');
+const { commentRouter } = require('./routes/comment');
 const app = express();
 
 app.use(cors({
@@ -18,6 +19,7 @@ app.use(express.static(path.join(__dirname,'public')));
 
 app.use('/api/user',userRouter);
 app.use('/api/post',postRouter);
+app.use('/api/comment',commentRouter);
 
 connectToDatabase()
     .then(() => {
