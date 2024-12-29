@@ -4,7 +4,7 @@ import ProfileBar from '../../components/Search/ProfileBar'
 
 function Search() {
   return (
-    <div className='w-screen flex flex-col justify-center items-center'>
+    <div className='w-screen flex flex-col justify-start items-center min-h-screen'>
       <SearchBar/>
       <ProfileBar/>
       <ProfileBar/>

@@ -9,7 +9,7 @@ function ProfileLayout() {
   const dispatch = useDispatch();
   const openEditProfileModel = useSelector(state=>state.service.openEditProfileModel);
   return (
-    <div className='flex flex-col md:w-[50vw] mx-auto w-[90vw]'>
+    <div className='flex flex-col md:w-[50vw] mx-auto w-[90vw] min-h-screen'>
       <div className='p-1 flex flex-col gap-4 mt-10'>
         <div className='flex justify-between w-[100%]'>
           <div className='flex flex-col p-1'>
@@ -17,7 +17,7 @@ function ProfileLayout() {
               Username</div>
             <div className='flex gap-1 justify-center items-center'>
               <div>userid</div>
-              <div className='cursor-pointer text-xs px-1 py-1 bg-slate-200 rounded-lg'>threads.net</div>
+              <div className='cursor-pointer text-xs px-1 py-1 bg-slate-200 dark:bg-zinc-600 rounded-lg'>threads.net</div>
             </div>
           </div>
           <div className='rounded-full bg-slate-800 w-20 h-20 flex justify-center items-center'>
@@ -40,7 +40,7 @@ function ProfileLayout() {
         </div>
       </div>
       <button onClick={()=>dispatch(setOpenEditProfileModel(true))}
-      className='border rounded-lg my-5 py-1 font-semibold hover:bg-slate-100'
+      className='border rounded-lg my-5 py-1 font-semibold hover:bg-slate-100 dark:hover:bg-zinc-700 dark:bg-zinc-600'
       >Edit Profile</button>
       <div className='flex justify-center gap-0 border-b'>
         <NavLink to={'/profile/threads/1'}

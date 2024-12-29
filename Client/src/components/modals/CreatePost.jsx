@@ -12,9 +12,9 @@ function CreatePost() {
         mediaRef.current.click();
     }
     return (
-        <div className='fixed inset-0 flex justify-center items-center z-30'>
+        <div className='fixed inset-0 flex justify-center items-center z-30 dark:text-black'>
             <div className='fixed inset-0 bg-zinc-800 opacity-85'></div>
-            <div className='max-w-[90vw] gap-3 relative z-40 bg-white rounded-lg md:w-[55vw] flex flex-col justify-between'>
+            <div className='max-w-[90vw] gap-3 relative z-40 bg-white dark:bg-slate-100 rounded-lg md:w-[55vw] flex flex-col justify-between'>
                 <IoCloseCircleOutline size={20} onClick={() => dispatch(setOpenAddPostModel(false))} className='absolute top-1 right-1 cursor-pointer' />
                 <div className='flex gap-3 p-5'>
                     <div className='rounded-full bg-slate-800 w-12 h-12 flex justify-center items-center'>
@@ -23,7 +23,7 @@ function CreatePost() {
                     <div className='flex flex-col justify-start'>
                         <p className='font-semibold'>Username</p>
                         <textarea value={text} onChange={(e) => setText(e.target.value)} autoFocus placeholder='Start a thread...' type='text'
-                            className='mb-2 md:w-[40vw] resize-none md:min-h-20 cursor-pointer outline-none py-2'></textarea>
+                            className='dark:bg-slate-100 mb-2 md:w-[40vw] resize-none md:min-h-20 cursor-pointer outline-none py-2'></textarea>
                         {media &&
                             <div className='overflow-y-scroll max-h-[40vh]'>
                                 <img height={350} width={350} src={URL.createObjectURL(media)}

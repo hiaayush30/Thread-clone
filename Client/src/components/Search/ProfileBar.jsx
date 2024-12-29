@@ -17,7 +17,7 @@ function ProfileBar() {
                     </div>
                 </div>
                 <button 
-                className='px-4 py-1 border rounded-lg text-zinc-800 font-medium hover:bg-slate-100'
+                className='dark:bg-zinc-200 dark:hover:scale-105 px-4 py-1 border rounded-lg text-zinc-800 font-medium hover:bg-slate-100'
                 >Follow</button>
             </div>
         </div>

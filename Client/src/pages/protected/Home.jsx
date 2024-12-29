@@ -12,7 +12,7 @@ export default function Home() {
         <Post src='peakpx.jpg' />
       </div>
       <div className='text-center py-3 max-md:pb-16'>
-        <button className='px-1 py-1 border-2 rounded-md hover:underline underline-offset-4 hover:bg-blue-50 bg-blue-100'>Load More</button>
+        <button className='dark:bg-zinc-200 dark:text-black px-1 py-1 border-2 rounded-md hover:underline underline-offset-4 hover:bg-blue-50 bg-blue-100'>Load More</button>
       </div>
     </>
   )
