@@ -1,8 +1,11 @@
 import { useRef, useState } from 'react'
 import { CiEdit } from 'react-icons/ci'
 import { IoClose } from 'react-icons/io5'
+import { useDispatch } from 'react-redux';
+import { setOpenEditProfileModel } from '../../redux/features/service/serviceSlice';
 
-function EditProfile({ setEditProfile }) {
+function EditProfile() {
+  const dispatch = useDispatch();
   const [profilePic,setProfilePic]=useState('/profilePic.png');
   const [username,setUsername]=useState('Arijit_Singh');
   const [email,setEmail]=useState('arijit@gmail.com');
@@ -17,7 +20,7 @@ function EditProfile({ setEditProfile }) {
       <div className='absolute inset-0 bg-black opacity-80 z-20'></div>
       <div className='overflow-y-scroll max-h-[90vh] relative bg-white min-h-[50vh] w-[80vw] md:w-[50vw] z-30 rounded-md flex flex-col'>
         <button className='absolute right-0'
-          onClick={() => setEditProfile(false)}>
+          onClick={() => dispatch(setOpenEditProfileModel(false))}>
           <IoClose title='Discard Changes' size={28} />
         </button>
         <div className='flex flex-col justify-center items-center gap-2'>
