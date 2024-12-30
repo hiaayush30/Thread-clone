@@ -47,15 +47,15 @@ function ProfileLayout() {
       >Edit Profile</button>
       <div className='flex justify-center gap-0 border-b'>
         <NavLink to={'/profile/threads/1'}
-          className={({ isActive }) => (isActive ? "border-black dark:border-blue-800 border-b-2 font-medium w-[33%] text-center py-4 transition-all" :
+          className={({ isActive }) => (isActive ? "border-black dark:border-white border-b-2 font-medium w-[33%] text-center py-4 transition-all" :
             "w-[33%] text-center py-4 transition-all")}
         >Threads</NavLink>
         <NavLink to={'/profile/replies/1'}
-          className={({ isActive }) => (isActive ? "border-black dark:border-blue-800 border-b-2 font-medium w-[33%] text-center py-4 transition-all" :
+          className={({ isActive }) => (isActive ? "border-black dark:border-white border-b-2 font-medium w-[33%] text-center py-4 transition-all" :
             "w-[33%] text-center py-4 transition-all")}
         >Replies</NavLink>
         <NavLink to={'/profile/reposts/1'}
-          className={({ isActive }) => (isActive ? "border-black dark:border-blue-800 border-b-2 font-medium w-[33%] text-center py-4 transition-all" :
+          className={({ isActive }) => (isActive ? "border-black dark:border-white  border-b-2 font-medium w-[33%] text-center py-4 transition-all" :
             "w-[33%] text-center py-4 transition-all")}
         >Reposts</NavLink>
       </div>

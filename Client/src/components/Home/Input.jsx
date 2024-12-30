@@ -15,7 +15,7 @@ function Input() {
         Start a thread . . .
         </div>
     </div>
-    <button className='bg-slate-500 text-white py-1 px-2 rounded-lg hover:bg-slate-700'>Post</button>
+    <button className='bg-zinc-700 text-white py-1 px-2 rounded-lg hover:bg-zinc-600'>Post</button>
 
     </div>
   )

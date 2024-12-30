@@ -4,18 +4,7 @@ import { useNavigate } from "react-router-dom";
 function Error() {
     const nav=useNavigate();
   return (
-    <Stack
-    width={'100%'}
-    height={'100vh'}
-    flexDirection={'row'}
-    justifyContent={'center'}
-    alignItems={'center'}
-    sx={{
-        background:'url("/errorImage.jpg")',
-        backgroundRepeat:"no-repeat",
-        backgroundSize:'cover'
-    }}
-    >
+    <div className="w-screen h-screen bg-[url('/errorImage.jpg')] bg-cover bg-no-repeat flex justify-center items-center">
         <Stack 
         padding={5}
         // border={'1px solid black'}
@@ -25,19 +14,18 @@ function Error() {
         alignItems={'center'}
         gap={2}
         color={'white'}
-        marginTop={'200px'}
         // boxShadow={'7px 7px 7px white'}
         >
             <Typography variant="h3">Oop`s</Typography>
             <Typography variant="h3">you're lost</Typography>
             <button
             onClick={()=>nav(-1)} 
-            className="p-1 bg-blue-900 text-white rounded-md hover:bg-blue-800">Go Back</button>
+            className="p-1 bg-zinc-800 text-white rounded-md hover:bg-zinc-700">Go Back</button>
             <button
             onClick={()=>nav('/')} 
-            className="p-1 bg-blue-900 text-white rounded-md hover:bg-blue-800">Go to Home</button>
+            className="p-1 bg-zinc-800 text-white rounded-md hover:bg-zinc-700">Go to Home</button>
         </Stack>
-    </Stack>
+    </div>
   )
 }
 

@@ -7,10 +7,11 @@ export const serviceSlice = createSlice({
         openAddPostModel: false,
         openEditProfileModel: false,
         openMainMenu: false,
-        darkMode: false,
+        darkMode: true,
         myInfo: null,
         user: null,
-        allPosts: []
+        allPosts: [],
+        postId:null
     },
     reducers: {
         setOpenAddPostModel: (state, action) => {
@@ -56,10 +57,28 @@ export const serviceSlice = createSlice({
                     existingPosts.push(post);
                 }
             })
+        },
+        addSinglePost:(state,action)=> {
+            let updatedArr = [action.payload.newPost,...state.allPosts];
+            //all below will come in use when 'update post' function would be there
+            let uniqueArr = new Set();
+            let uniquePosts=updatedArr.filter(post=>{
+                if(!uniqueArr.has(post._id)){
+                    uniqueArr.add(post);
+                    return true;
+                }
+                return false;
+            })
+            state.allPosts=uniquePosts;
+        },
+        deletePost:(state,action)=>{
+           let postArr = [...state.allPosts];
+           let newArr=postArr.filter(e=>e._id!=state.postId);
+           state.allPosts=newArr;
         }
     },
 })
 
 // Action creators are generated for each case reducer function
-export const { setAllPosts, addUser, addMyInfo, setOpenAddPostModel, setDarkMode, setOpenEditProfileModel, setOpenMainMenu } = serviceSlice.actions
+export const { deletePost,addSinglePost,setAllPosts, addUser, addMyInfo, setOpenAddPostModel, setDarkMode, setOpenEditProfileModel, setOpenMainMenu } = serviceSlice.actions
 export default serviceSlice.reducer

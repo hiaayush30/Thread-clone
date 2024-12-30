@@ -1,6 +1,6 @@
 
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react'
-import { addMyInfo, addUser, setAllPosts } from './features/service/serviceSlice';
+import { addMyInfo, addSinglePost, addUser, deletePost, setAllPosts } from './features/service/serviceSlice';
 
 export const serviceApi = createApi({
     reducerPath: 'serviceApi',
@@ -10,7 +10,8 @@ export const serviceApi = createApi({
     }),
     keepUnusedDataFor: 60 * 60 * 24 * 7,
     tagTypes: ['Post', 'User', 'Me'],
-    //declares a set of identifiers (tags) that can be associated with the cached data.
+    // declares a set of identifiers (tags) that can be associated with the cached data.
+    // refetchOnFocus:true,  //comming back to this tab in web browser 
     endpoints: (builder) => ({
         login: builder.mutation({
             query: (data) => ({
@@ -34,6 +35,8 @@ export const serviceApi = createApi({
                 method: 'GET'
             }),
             providesTags: ['Me'],
+            // transformErrorResponse,
+            // transformResponse
             //pessimistic update
             async onQueryStarted(params, { dispatch, queryFulfilled }) {
                 try {
@@ -57,7 +60,7 @@ export const serviceApi = createApi({
                 url: `/user/info/${id}`,
                 method: 'GET'
             }),
-            providesTags: (result, error, { id }) => [{ type: 'User', id:id }],
+            providesTags: (result, error, { id }) => [{ type: 'User', id: id }],
             async onQueryStarted(params, { dispatch, queryFulfilled }) {
                 try {
                     const { data } = await queryFulfilled;
@@ -70,7 +73,7 @@ export const serviceApi = createApi({
         getAllPosts: builder.query({
             query: (page) => ({
                 url: `/post/?page=${page}`,
-                method: 'GET'
+                method: 'GET',
             }),
             providesTags: (result, error, args) => {
                 return result ? [
@@ -80,30 +83,122 @@ export const serviceApi = createApi({
                     }))
                 ] : [{ type: "Post", id: 'LIST' }]
             },
-            async onQueryStarted(dispatch,queryFulfilled){
-              try{
-                  const {data} =await queryFulfilled;
-                  dispatch(setAllPosts(data));
-              }catch(err){
-                console.log(err);
-              }
+            async onQueryStarted(params,{dispatch, queryFulfilled}) {
+                try {
+                    const { data } = await queryFulfilled;
+                    dispatch(setAllPosts(data));
+                } catch (err) {
+                    console.log(err);
+                }
             }
         }),
         searchUsers: builder.query({
-            query:(query)=>({
-                url:`user/search/${query}`,
-                method:'GET'
+            query: (query) => ({
+                url: `user/search/${query}`,
+                method: 'GET'
             })
         }),
-        followUser:builder.mutation({
-            query:(id)=>({
-                url:`/user/follow/${id}`,
-                method:'POST'
+        followUser: builder.mutation({
+            query: (id) => ({
+                url: `/user/follow/${id}`,
+                method: 'POST'
             }),
-            invalidatesTags:(result,error,args)=>[{type:'User',id:args.id}],
+            invalidatesTags: (result, error, args) => [{ type: 'User', id: args.id }],
+        }),
+        updateProfile:builder.mutation({
+            query:(data)=>({
+                url:'/user/update',
+                method:"PUT",
+                body:data
+            }),
+            invalidatesTags:['Me']
         }),
 
+        addPost: builder.mutation({
+            query: (data) => ({
+                url: '/post/add',
+                method: 'POST',
+                body: data
+            }),
+            invalidatesTags: ['Post'],
+            async onQueryStarted(params, { dispatch, queryFulfilled }) {
+                try {
+                    const {data} = await queryFulfilled;
+                    dispatch(addSinglePost(data));
+                } catch (error) {
+                    console.log(error)
+                }
+            }
+        }),
+        deletePost : builder.mutation({
+            query:(id)=>({
+                url:`/post/${id}`,
+                method:'DELETE'
+            }),
+            invalidatesTags:['Post'],
+            async onQueryStarted(params,{dispatch,queryFulfilled}){
+                try {
+                    const {data} = await queryFulfilled;
+                    dispatch(deletePost(data));
+                } catch (error) {
+                    console.log(error);
+                }
+            }
+        }),
+        likePost : builder.mutation({
+            query:(id)=>({
+                url:`/post/like/${id}`,
+                method:"PUT"
+            }),
+            invalidatesTags:(result,error,args)=>[{type:'Post',id:args._id}]
+        }),
+        singlePost: builder.query({
+            query:(id)=>({
+                url:`/post/${id}`,
+                method:'GET'
+            }),
+
+        }),
+        repost:builder.mutation({
+            query:(id)=>({
+                url:`/post/repost/${id}`,
+                method:'POST'
+            }),
+            invalidatesTags:['User']  //any user if reposts will invalidate this
+        }),
+
+        addComment:builder.mutation({
+            query:({id,...data})=>({
+              url:`/comment/${id}`,
+              method:'POST',
+              body:data
+            }),
+            invalidatesTags:['User']
+        }),
+        deleteComment:builder.mutation({
+            query:({postId,id})=>({
+                url:`/comment/${postId}/${id}`,
+                method:'DELETE'
+            }),
+            invalidatesTags:(result,error,args)=>[{type:'Post',id:args.postId}]
+            //args are the same as passed to the query
+        })
     })
 })
 
-export const { useGetAllPostsQuery,useSearchUsersQuery,useUserDetailsQuery, useLogoutMutation, useLoginMutation, useSignupMutation, useMyInfoQuery } = serviceApi;
+export const { 
+    useDeleteCommentMutation,
+    useAddCommentMutation,
+    useRepostMutation,
+    useSinglePostQuery,
+    useLikePostMutation,
+    useDeletePostMutation,
+    useAddPostMutation,
+    useFollowUserMutation, 
+    useGetAllPostsQuery, 
+    useSearchUsersQuery, 
+    useUserDetailsQuery, 
+    useLogoutMutation, 
+    useLoginMutation, 
+    useSignupMutation, 
+    useMyInfoQuery } = serviceApi;

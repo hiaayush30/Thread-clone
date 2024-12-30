@@ -44,13 +44,14 @@ const addPost = async (req, res) => {
                 $push: { threads: post._id }
             })
             res.status(CREATED).json({
-                message: 'post added!'
+                message: 'post added!',
+                post
             })
         })
     } catch (err) {
         console.log('add post error' + err);
         res.status(INTERNAL_SERVER_ERROR).json({
-            message: 'internal server error'
+            message: 'internal server error',
         })
 
     }
