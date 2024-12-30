@@ -18,7 +18,7 @@ function Header() {
       <div className='max-md:hidden flex h-20 justify-around items-center sticky top-0 py-1 md:my-3'>
         <FaThreads onClick={() => navigate('/')}
           className="w-12 h-12 cursor-pointer hover:scale-110 transition-all" />
-        <div className='dark:bg-slate-100 max-w-[95vw] flex justify-center rounded-lg w-[550px] bg-[#F0F8FF] z-20 h-20 text-white'
+        <div className='dark:bg-zinc-800 max-w-[95vw] flex justify-center rounded-lg w-[550px] bg-[#F0F8FF] z-20 h-20 text-white'
         >
           <Navbar />
           {/* seperate component as we have to use this in mobile format */}
@@ -41,7 +41,7 @@ function Header() {
             {openMainMenu && <MainMenu />}
           </div>
         </div>
-        <div className="dark:bg-slate-100 fixed bottom-0 bg-blue-100 right-0 left-0 p-1 z-20 pt-2 opacity-95">
+        <div className="dark:bg-zinc-800  fixed bottom-0 bg-blue-100 right-0 left-0 p-1 z-20 pt-2 opacity-95">
           <Navbar />
         </div>
       </div>

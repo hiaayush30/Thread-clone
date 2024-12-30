@@ -1,13 +1,16 @@
 import React, { useState } from 'react'
 import { FaInstagram } from 'react-icons/fa'
-import { Link, NavLink, Outlet } from 'react-router-dom'
+import { Link, NavLink, Outlet, useParams } from 'react-router-dom'
 import EditProfile from '../../../components/modals/EditProfile';
 import { useDispatch, useSelector } from 'react-redux';
 import { setOpenEditProfileModel } from '../../../redux/features/service/serviceSlice';
+import { useUserDetailsQuery } from '../../../redux/api';
 
 function ProfileLayout() {
   const dispatch = useDispatch();
   const openEditProfileModel = useSelector(state=>state.service.openEditProfileModel);
+  const params = useParams();
+  const data = useUserDetailsQuery(params.id)
   return (
     <div className='flex flex-col md:w-[50vw] mx-auto w-[90vw] min-h-screen'>
       <div className='p-1 flex flex-col gap-4 mt-10'>
@@ -40,19 +43,19 @@ function ProfileLayout() {
         </div>
       </div>
       <button onClick={()=>dispatch(setOpenEditProfileModel(true))}
-      className='border rounded-lg my-5 py-1 font-semibold hover:bg-slate-100 dark:hover:bg-zinc-700 dark:bg-zinc-600'
+      className='border rounded-lg my-5 py-1 font-semibold hover:bg-slate-100 dark:hover:bg-zinc-700 dark:bg-zinc-800'
       >Edit Profile</button>
       <div className='flex justify-center gap-0 border-b'>
         <NavLink to={'/profile/threads/1'}
-          className={({ isActive }) => (isActive ? "border-black border-b-2 font-medium w-[33%] text-center py-4 transition-all" :
+          className={({ isActive }) => (isActive ? "border-black dark:border-blue-800 border-b-2 font-medium w-[33%] text-center py-4 transition-all" :
             "w-[33%] text-center py-4 transition-all")}
         >Threads</NavLink>
         <NavLink to={'/profile/replies/1'}
-          className={({ isActive }) => (isActive ? "border-black border-b-2 font-medium w-[33%] text-center py-4 transition-all" :
+          className={({ isActive }) => (isActive ? "border-black dark:border-blue-800 border-b-2 font-medium w-[33%] text-center py-4 transition-all" :
             "w-[33%] text-center py-4 transition-all")}
         >Replies</NavLink>
         <NavLink to={'/profile/reposts/1'}
-          className={({ isActive }) => (isActive ? "border-black border-b-2 font-medium w-[33%] text-center py-4 transition-all" :
+          className={({ isActive }) => (isActive ? "border-black dark:border-blue-800 border-b-2 font-medium w-[33%] text-center py-4 transition-all" :
             "w-[33%] text-center py-4 transition-all")}
         >Reposts</NavLink>
       </div>

@@ -1,17 +1,9 @@
 import { Stack, CircularProgress } from "@mui/material"
 function Loading() {
   return (
-    <Stack
-      flexDirection={'row'}
-      minHeight={'50vh'}
-      width={'100%'}
-      height={'100%'}
-      justifyContent={'center'}
-      alignItems={'center'}
-      my={'5'}
-    >
-      <CircularProgress color="success" />
-    </Stack>
+    <div className="flex justify-center items-center">
+      <CircularProgress color="info" size={20}/>
+    </div>
   )
 }
 

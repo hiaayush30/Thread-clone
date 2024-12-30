@@ -1,10 +1,16 @@
 import { configureStore } from '@reduxjs/toolkit'
 import  serviceSliceReducer  from './features/service/serviceSlice'
+import { serviceApi } from './api'
 
 export const store = configureStore({
   reducer: {
-    service:serviceSliceReducer 
+    service:serviceSliceReducer ,
+    [serviceApi.reducerPath]:serviceApi.reducer,
   },
+  middleware : (getDefaultMiddleware) =>
+    getDefaultMiddleware().concat(
+        serviceApi.middleware
+    ),
 })
 
 

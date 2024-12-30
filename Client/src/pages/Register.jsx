@@ -1,25 +1,48 @@
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import { useForm } from "react-hook-form"
 import { GiFeather } from "react-icons/gi";
+import { useLoginMutation, useMyInfoQuery, useSignupMutation } from "../redux/api";
+import Loading from "../components/common/Loading";
+import { ToastContainer, toast } from 'react-toastify';
+import { useNavigate } from "react-router-dom";
+import { useDispatch } from "react-redux";
+import { addMyInfo } from "../redux/features/service/serviceSlice";
 
 export default function Register() {
+  const dispatch = useDispatch();
+  const navigate=useNavigate();
+  const [loginUser, loginUserData] = useLoginMutation();
+  const [signupUser,signupUserData] = useSignupMutation();
   const [login, setLogin] = useState(true);
+  const toastOptions={
+    autoClose:1000
+  }
+
   const {
     register,
     handleSubmit,
-    watch,
     formState: { errors },
   } = useForm()
 
-
-  const onSubmit = (data) => {
-    console.log("Ye rha data");
-    console.log(data);
+  const onSubmit = async (data) => {
+    if (login) {
+     const response = await loginUser(data);
+      console.log(loginUserData)
+      if (response.error) {
+        toast.error(response.error.data.message,toastOptions)
+      }else{
+        navigate('/');
+      }
+    }else{
+      const response = await signupUser(data);
+      if(response.error){
+        toast.error(response.error.data.message,toastOptions)
+      }else{
+        toast.success(response.data.message,toastOptions);
+        setLogin(true);
+      }
+    }
   }
-
-
-  // console.log(watch("example")) // watch input value by passing the name of it
-
 
   return (
     <div className="relative md:bg-[url('/bg1.png')]  bg-[url('/bg2.png')] w-screen h-screen flex flex-col justify-center items-center font-kodeMono"
@@ -54,15 +77,17 @@ export default function Register() {
           {errors.password && <span className="text-red-600">{errors.password.message}</span>}
         </div>
 
-        <input type="submit"
-          className='p-1 bg-slate-700 rounded-md text-white hover:bg-slate-500' />
+        {loginUserData.isLoading || signupUserData.isLoading ? <Loading /> : <input type="submit"
+          className='p-1 bg-slate-700 cursor-pointer rounded-md text-white hover:bg-slate-500' />}
       </form>
 
       <div className='text-center  px-1 py-1'>{login ? "Don't have an account ? " : "Already have an account ? "} <span onClick={() => setLogin(!login)}
         className='text-blue-500 cursor-pointer hover:underline underline-offset-2'>{login ? "Signup" : "Login here"}</span></div>
       <div className="absolute bottom-1 md:left-1 flex justify-center items-center">
         <p className="hover:underline underline-offset-4 cursor-pointer">developed by Aayush </p>
-        <GiFeather /> </div>
+        <GiFeather />
+      </div>
+      <ToastContainer/>
     </div>
   )
 }

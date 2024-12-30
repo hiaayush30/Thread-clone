@@ -7,7 +7,10 @@ export const serviceSlice = createSlice({
         openAddPostModel: false,
         openEditProfileModel: false,
         openMainMenu: false,
-        darkMode: false
+        darkMode: false,
+        myInfo: null,
+        user: null,
+        allPosts: []
     },
     reducers: {
         setOpenAddPostModel: (state, action) => {
@@ -20,7 +23,7 @@ export const serviceSlice = createSlice({
             state.openMainMenu = action.payload;
         },
         setDarkMode: ((state, action) => {
-            if(typeof action.payload !== "boolean"){
+            if (typeof action.payload !== "boolean") {
                 console.log("invalid payload for darkMode");
                 return;
             }
@@ -30,10 +33,33 @@ export const serviceSlice = createSlice({
             } else {
                 document.body.classList.remove('dark');
             }
-        })
+        }),
+        addMyInfo: (state, action) => {
+            state.myInfo = action.payload.me
+        },
+        addUser: (state, action) => {
+            state.user = action.payload;
+        },
+        setAllPosts: (state, action) => {
+            const newPosts = [...action.payload];
+            if (state.allPosts.length === 0) {
+                state.allPosts = newPosts;
+            }
+            const existingPosts = [...state.allPosts];
+            newPosts.forEach(post => {
+                const existingIndex = existingPosts.findIndex(i => {
+                    return i._id == post._id
+                });
+                if (existingIndex != 1) {
+                    existingPosts[existingIndex] = post;
+                } else {
+                    existingPosts.push(post);
+                }
+            })
+        }
     },
 })
 
 // Action creators are generated for each case reducer function
-export const { setOpenAddPostModel, setDarkMode, setOpenEditProfileModel, setOpenMainMenu } = serviceSlice.actions
+export const { setAllPosts, addUser, addMyInfo, setOpenAddPostModel, setDarkMode, setOpenEditProfileModel, setOpenMainMenu } = serviceSlice.actions
 export default serviceSlice.reducer

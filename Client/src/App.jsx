@@ -12,12 +12,14 @@ import Replies from './pages/protected/Profile/Replies'
 import Reposts from './pages/protected/Profile/Reposts'
 import SinglePost from './pages/protected/SinglePost'
 import LandingPage from './pages/LandingPage'
+import { useSelector } from 'react-redux'
+import { useMyInfoQuery } from './redux/api'
 
 // React Router renders parent routes and
 // their nested child routes together. (using Outlet)
 
 function App() {
-  const data = true;
+  const {data} = useMyInfoQuery();
   return (
     <div className='min-h-screen'>
       <BrowserRouter>
@@ -34,8 +36,8 @@ function App() {
           </Route>
           <Route path='*' element={<Error />} />
         </Routes>) : (<Routes>
-          <Route path='/register' element={<Register />} />
-          <Route path='*' element={<LandingPage />} />
+          <Route path='*' element={<Register/>} />
+          {/* <Route path='*' element={<LandingPage/>} /> */}
         </Routes>)}
       </BrowserRouter>
     </div>

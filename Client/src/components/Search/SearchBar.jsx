@@ -8,7 +8,7 @@ function SearchBar() {
       <GoSearch/>
       </div>
       <input type='text' placeholder='Search'
-      className='outline-none p-4 w-[95%] cursor-pointer dark:bg-zinc-800'
+      className='outline-none p-4 w-[95%] cursor-pointer dark:bg-zinc-900'
       ></input>
     </div>
   )

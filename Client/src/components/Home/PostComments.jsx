@@ -19,9 +19,9 @@ function PostComments() {
                     <div>24min</div>
                     <div className='relative'>
                         <BsThreeDots onClick={() => setMenuOpen(!menuOpen)}
-                            className={`transition-all duration-200 hover:bg-slate-100 rounded-md cursor-pointer text-gray-500
+                            className={`transition-all duration-200 hover:bg-slate-100 dark:hover:bg-zinc-600  rounded-md cursor-pointer text-gray-500
                                 ${menuOpen && 'rotate-90 text-black'}`} />
-                        {menuOpen && <div className='absolute border cursor-pointer right-0 bg-slate-100 rounded-md p-1'>
+                        {menuOpen && <div className='absolute border cursor-pointer right-0 bg-slate-100 dark:text-white dark:bg-zinc-600 rounded-md p-1'>
                             <div className=' text-sm px-1 hover:scale-105 '>Delete</div>
                         </div>}
                     </div>
