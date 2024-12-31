@@ -5,7 +5,7 @@ import { IoIosMore } from "react-icons/io";
 import { Link, useNavigate } from 'react-router-dom';
 import PostMenu from '../menu/PostMenu';
 
-function Post(props) {
+function Post({post}) {
     const navigate = useNavigate();
     const [menuOpen,setMenuOpen]=useState(false);
     return (
@@ -14,16 +14,17 @@ function Post(props) {
             <div className='flex justify-between px-5'>
                 <div className='flex'>
                     <div className='rounded-full bg-slate-800 w-11 h-11 flex justify-center items-center'>
-                        <img src='' alt='AJ' className='text-white'></img>
+                        <img src={post.admin.profilePic} alt='AJ' 
+                        className='text-white h-full w-full bg-cover rounded-full'></img>
                     </div>
                     <div className='flex flex-col mx-1'>
                         <div className='font-semibold'>
-                            Username</div>
+                            {post.admin.username}</div>
 
                         <div className='flex'
                             onClick={() => navigate('/post/1')}>
                             <span className='lg:max-w-[20vw] md:max-w-[25vw] max-w-[40vw] overflow-x-hidden whitespace-nowrap'
-                            >This is the capioghrbgvrehbgrtejmh,muy,yun of tyumym yum,uyjmkyugjmrythe prevbvtymntnrtgyrtnrtytryn5ttynost, i hope you like it
+                            >{post.text}
                             </span>
                             <span>...</span>
                         </div>
@@ -52,7 +53,7 @@ function Post(props) {
                         loading='lazy'
                         height={"auto"}
                         width={"auto"}
-                        src={props.src} />
+                        src={post?.media} />
                 </div>
                 <div className='flex gap-5 px-5 py-2'>
                     <FaRegHeart size={20} className='cursor-pointer' />
@@ -68,10 +69,10 @@ function Post(props) {
                     {/* Top Circle */}
                     <div className="absolute w-8 h-8 bg-red-500 rounded-full right-6 top-1"></div>
                 </div>
-                <div>4 replies</div>
+                <div>{post.comments.length} replies</div>
                 <Link onClick={(e) => e.stopPropagation()}
                     to={'/post/2'}>
-                    <div className='hover:underline underline-offset-4'>261 likes</div>
+                    <div className='hover:underline underline-offset-4'>{post.likes.length} likes</div>
                 </Link>
             </div>
         </div>

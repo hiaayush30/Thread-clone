@@ -86,7 +86,7 @@ export const serviceApi = createApi({
             async onQueryStarted(params,{dispatch, queryFulfilled}) {
                 try {
                     const { data } = await queryFulfilled;
-                    dispatch(setAllPosts(data));
+                    dispatch(setAllPosts(data.posts));
                 } catch (err) {
                     console.log(err);
                 }

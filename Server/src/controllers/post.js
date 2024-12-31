@@ -60,7 +60,7 @@ const addPost = async (req, res) => {
 const getAllPosts = async (req, res) => {
     try {
         let { page, limit } = req.query;
-        if (!limit || limit > 5 || limit < 1 || limit === undefined) limit = 5;
+        if (!limit || limit > 3 || limit < 1 || limit === undefined) limit = 3;
         if (!page || page < 1 || page === undefined) page = 1;
         const posts = await PostModel.find({})
             .sort({ createdAt: -1 })
