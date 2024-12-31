@@ -128,7 +128,7 @@ export const serviceApi = createApi({
                 url: `/post/${id}`,
                 method: 'DELETE'
             }),
-            invalidatesTags: ['Post'],
+            invalidatesTags: (result, error, args) => [{ type: 'Post', id: args._id }],
             async onQueryStarted(params, { dispatch, queryFulfilled }) {
                 try {
                     const { data } = await queryFulfilled;
@@ -166,7 +166,7 @@ export const serviceApi = createApi({
                 method: 'POST',
                 body: data
             }),
-            invalidatesTags: ['User']
+            invalidatesTags: ['User','Post']
         }),
         deleteComment: builder.mutation({
             query: ({ postId, id }) => ({

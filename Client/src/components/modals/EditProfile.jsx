@@ -8,40 +8,40 @@ import { toast } from 'react-toastify';
 import { useNavigate } from 'react-router-dom';
 
 function EditProfile() {
-  const {myInfo,darkMode,openEditProfileModel} = useSelector(state=>state.service)
+  const { myInfo, darkMode, openEditProfileModel } = useSelector(state => state.service)
   const dispatch = useDispatch();
   const [profilePic, setProfilePic] = useState(myInfo.profilePic);
   const [username, setUsername] = useState(myInfo.username);
   const [email, setEmail] = useState(myInfo.email);
   const [bio, setBio] = useState(myInfo.bio);
   const imageInputRef = useRef();
-  const [media,setMedia] = useState(null);
+  const [media, setMedia] = useState(null);
   const handleInputImage = (e) => {
     setMedia(e.target.files[0]);
     setProfilePic(URL.createObjectURL(e.target.files[0]));
     // This URL is a blob: URL that provides access to the file's binary data stored in memory.
   }
-  const {refetch} =useUserDetailsQuery(myInfo._id)
+  const { refetch } = useUserDetailsQuery(myInfo._id)
   const [updateProfile, { isLoading, isError }] = useUpdateProfileMutation();
   const handleUpdate = async () => {
-      const formData=new FormData();
-      formData.append('text',bio);
-      formData.append('media',media);
-      try {
-        await updateProfile(formData).unwrap();
-        toast.success('Profile updated!',{
-          theme:darkMode ? 'dark':'light',
-          autoClose:2000
-        })
-        refetch();
-        dispatch(setOpenEditProfileModel(false));
-      } catch (error) {
-        console.log(error);
-        toast.error('Something went wrong!',{
-          theme:darkMode ? 'dark':'light',
-          autoClose:2000
-        })
-      }
+    const formData = new FormData();
+    formData.append('text', bio);
+    formData.append('media', media);
+    try {
+      await updateProfile(formData).unwrap();
+      toast.success('Profile updated!', {
+        theme: darkMode ? 'dark' : 'light',
+        autoClose: 2000
+      })
+      refetch();
+      dispatch(setOpenEditProfileModel(false));
+    } catch (error) {
+      console.log(error);
+      toast.error('Something went wrong!', {
+        theme: darkMode ? 'dark' : 'light',
+        autoClose: 2000
+      })
+    }
   }
   return (
     <div className='flex justify-center items-center fixed inset-0 dark:text-black'>
@@ -78,7 +78,8 @@ function EditProfile() {
           <input type='text' value={bio} className='p-1 outline-none cursor-pointer dark:bg-slate-200'
             onChange={(e) => setBio(e.target.value)} />
         </div>
-        <button onClick={handleUpdate} disabled={isLoading}
+        <button
+          onClick={handleUpdate} disabled={isLoading}
           className='mb-2 p-1 border mx-4 rounded-md dark:bg-zinc-800 dark:hover:bg-zinc-700 bg-blue-300 text-white hover:bg-blue-200'
         >{isLoading ? 'Updating...' : 'UPDATE'}</button>
       </div>

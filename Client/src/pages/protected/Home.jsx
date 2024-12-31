@@ -8,7 +8,7 @@ import PostSkeleton from '../../components/skeletons/PostSkeleton'
 export default function Home() {
   const [page, setPage] = useState(1);
   const [loadMore, setLoadMore] = useState(true);
-  const { data, isLoading, isSuccess} = useGetAllPostsQuery(page);
+  const { data, isLoading, isSuccess,refetch} = useGetAllPostsQuery(page);
   const {allPosts} = useSelector(state=>state.service);
   const [loading,setLoading] = useState(false);
   const handleLoadMore = () => {
@@ -22,12 +22,12 @@ export default function Home() {
    }
   },[data])
   return (
-    <>
-      <div className='py-5 min-h-screen'>
+    <div className='min-h-screen'>
+      <div className='py-5'>
         <Input />
         {!isLoading && allPosts.length == 0 && <div className='text-center p-5'>No Posts yet!</div>}
         {isSuccess && allPosts.map(post => {
-          return <Post key={post._id} post={post} />
+          return <Post key={post._id} post={post} refetch={refetch} />
         })}
         {isLoading && (
           <>
@@ -37,12 +37,12 @@ export default function Home() {
           </>
         )}
       </div>
-      {loadMore ? <div className='text-center py-3 max-md:pb-16'>
+      {loadMore ? <div className='text-center py-3'>
         <button onClick={handleLoadMore}
           className='dark:bg-zinc-200 dark:text-black px-1 py-1 border-2 rounded-md hover:underline underline-offset-4 hover:bg-blue-50 bg-blue-100'
           >{loading ? 'Loading...':'Load More'}</button>
       </div>: <div className='text-center p-5'
       >No more posts today!</div>}
-    </>
+    </div>
   )
 }

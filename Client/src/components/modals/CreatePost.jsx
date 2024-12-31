@@ -42,7 +42,7 @@ function CreatePost() {
                 <div className='flex gap-3 p-5'>
                     <div className='rounded-full bg-slate-800 w-12 h-12 flex justify-center items-center'>
                         <img src={myInfo.profilePic} alt='AJ' 
-                        className='text-white h-full w-full rounded-full'></img>
+                        className='text-white h-full w-full rounded-full object-cover'></img>
                     </div>
                     <div className='flex flex-col justify-start'>
                         <p className='font-semibold'>{myInfo.username}</p>
