@@ -9,6 +9,7 @@ import { setOpenAddPostModel } from "../../redux/features/service/serviceSlice";
 
 function Navbar() {
   const dispatch = useDispatch();
+  const {myInfo} = useSelector(state=>state.service);
   const openAddPostModel = useSelector(state=>state.service.openAddPostModel);
   return (
     <div className='w-full h-full flex justify-around items-center text-black'>
@@ -32,7 +33,7 @@ function Navbar() {
       )}>
         <FaHeart size={32} className='cursor-pointer hover:scale-110 transition-all duration-300 ease-in-out' />
       </NavLink>
-      <NavLink to={'/profile'} className={({ isActive }) => (
+      <NavLink to={`/profile/threads/${myInfo._id}`} className={({ isActive }) => (
         isActive ? "p-1 rounded-full dark:text-zinc-100 dark:shadow-md dark:md:shadow-white" : "p-1 text-slate-400 dark:text-zinc-500"
       )}>
         <CgProfile size={32} className='cursor-pointer hover:scale-110 transition-all duration-300 ease-in-out' />

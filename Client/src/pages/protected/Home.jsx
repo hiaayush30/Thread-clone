@@ -10,12 +10,15 @@ export default function Home() {
   const [loadMore, setLoadMore] = useState(true);
   const { data, isLoading, isSuccess} = useGetAllPostsQuery(page);
   const {allPosts} = useSelector(state=>state.service);
+  const [loading,setLoading] = useState(false);
   const handleLoadMore = () => {
+    setLoading(true);
     setPage(page=>page + 1);
   }
   useEffect(()=>{
    if(data){
      if(data.posts.length < 3 ) setLoadMore(false);
+     setLoading(false);
    }
   },[data])
   return (
@@ -36,8 +39,9 @@ export default function Home() {
       </div>
       {loadMore ? <div className='text-center py-3 max-md:pb-16'>
         <button onClick={handleLoadMore}
-          className='dark:bg-zinc-200 dark:text-black px-1 py-1 border-2 rounded-md hover:underline underline-offset-4 hover:bg-blue-50 bg-blue-100'>Load More</button>
-      </div>: allPosts.length > 0 && <div className='text-center p-5'
+          className='dark:bg-zinc-200 dark:text-black px-1 py-1 border-2 rounded-md hover:underline underline-offset-4 hover:bg-blue-50 bg-blue-100'
+          >{loading ? 'Loading...':'Load More'}</button>
+      </div>: <div className='text-center p-5'
       >No more posts today!</div>}
     </>
   )

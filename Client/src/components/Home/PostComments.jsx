@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import { BsThreeDots } from 'react-icons/bs'
 
-function PostComments() {
+function PostComments({comment}) {
     const [menuOpen, setMenuOpen] = useState(false);
     return (
         <div className='border-black border-b h-20 mt-4 w-full'>
@@ -11,8 +11,8 @@ function PostComments() {
                         <img src='' alt='AJ' className='text-white'></img>
                     </div>
                     <div className='flex flex-col'>
-                        <div className='font-semibold'>Username</div>
-                        <div>this is a comment</div>
+                        <div className='font-semibold'>{comment.admin.username}</div>
+                        <div>{comment.text}</div>
                     </div>
                 </div>
                 <div className='flex justify-center items-center gap-1'>

@@ -40,6 +40,7 @@ const addPost = async (req, res) => {
                     public_id: uploadedImage.public_id
                 })
             })
+            await post.populate({path:'admin',select:'-password'});
             await UserModel.findByIdAndUpdate(req.user._id, {
                 $push: { threads: post._id }
             })
