@@ -6,7 +6,7 @@ import { useSelector } from 'react-redux';
 import SearchUserSkeleton from '../../components/skeletons/SearchUserSkeleton'
 
 function Search() {
-  const [query,setQuery]=useState('a');
+  const [query,setQuery]=useState('');
   const { data,isLoading , isError } = useSearchUsersQuery(query);
   console.log(data);
   return (
@@ -17,10 +17,11 @@ function Search() {
         <SearchUserSkeleton />
         <SearchUserSkeleton />
       </>}
-      {!isLoading && data.users.map(user => {
+      {!data?.users && <div>Search Users</div>}
+      {!isLoading && data?.users.map(user => {
         return <ProfileBar user={user} key={user._id} />
       })}
-      {isError && <div className='text-center'>An Error occurred!</div>}
+      {/* {isError && <div className='text-center'>An Error occurred!</div>} */}
     </div>
   )
 }

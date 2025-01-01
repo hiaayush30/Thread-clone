@@ -6,7 +6,9 @@ import { useDispatch, useSelector } from 'react-redux';
 import { setOpenEditProfileModel, setUserProfile } from '../../../redux/features/service/serviceSlice';
 import { useMyInfoQuery, useUserDetailsQuery } from '../../../redux/api';
 import ProfileLayoutSkeleton from '../../../components/skeletons/ProfileLayoutSkeleton'
-import Error from '../../../pages/Error'
+import Error from '../../../pages/Error';
+import {Helmet} from 'react-helmet-async'
+
 function ProfileLayout() {
   const dispatch = useDispatch();
   const openEditProfileModel = useSelector(state => state.service.openEditProfileModel);
@@ -18,6 +20,11 @@ function ProfileLayout() {
   if (isError) return <Error/>
   return (
     <div className='flex flex-col md:w-[50vw] mx-auto w-[90vw] min-h-screen'>
+      <Helmet>
+        <title>
+          {data ? `${data.user.username}` : ''} | Threads App
+        </title>
+      </Helmet>
       <div className='p-1 flex flex-col gap-4 mt-10'>
         <div className='flex justify-between w-[100%]'>
           <div className='flex flex-col p-1'>

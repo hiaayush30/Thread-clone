@@ -5,7 +5,7 @@ import { useSelector } from 'react-redux';
 function Replies() {
   const {userProfile} = useSelector(state=>state.service);
   return (
-    <div>
+    <div className='pt-5'>
       {userProfile?.replies?.map(comment=>{
         return <PostComments key={comment._id} comment={comment}/>
       })}
