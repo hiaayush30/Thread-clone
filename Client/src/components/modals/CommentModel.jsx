@@ -31,7 +31,7 @@ function CommentModel({ post, setCommentModel,refetch }) {
             <div className='fixed inset-0 bg-zinc-800 opacity-85'></div>
             <div className='max-w-[90vw] gap-3 relative z-40 bg-white dark:bg-slate-100 rounded-lg md:w-[55vw] flex flex-col justify-between'>
                 <IoCloseCircleOutline size={20} onClick={() => setCommentModel(false)} className='absolute top-1 right-1 cursor-pointer' />
-                <div className='flex flex-col gap-3 p-5'>
+                <div className='flex flex-col gap-3 p-5 '>
                     <div className='flex gap-5'>
                         <div className='rounded-full bg-slate-800 w-12 h-12 flex justify-center items-center'>
                             <img src={post?.admin.profilePic} alt={post?.admin.username}
@@ -46,7 +46,7 @@ function CommentModel({ post, setCommentModel,refetch }) {
                         </div>
                     </div>
                     <input value={text} onChange={(e) => setText(e.target.value)}
-                        className='p-1 outline-none rounded-md' autoFocus
+                        className='p-1 outline-none rounded-md dark:bg-slate-100' autoFocus
                         type='text' placeholder='add comment...'></input>
                     {error && <div className='text-red-500 text-sm'>Comment cannot be empty!</div>}
                 </div>

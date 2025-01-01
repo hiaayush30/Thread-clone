@@ -68,9 +68,9 @@ const getAllPosts = async (req, res) => {
             //descending order ie the latest at the top  
             .skip((page - 1) * limit)
             .limit(limit)
+            .populate({ path: 'comments', populate: { path: 'admin', select: '-password' } })
             .populate({ path: 'likes', select: '-password' })
             .populate({ path: 'admin', select: '-password' })
-            .populate({ path: 'comments', populate: { path: 'admin', select: '-password' } })
         //to get the names of those who commented
         res.status(OK).json({
             message: 'posts fetched successfully',

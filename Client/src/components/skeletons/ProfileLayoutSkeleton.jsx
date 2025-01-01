@@ -3,7 +3,7 @@ import React from 'react'
 function ProfileLayoutSkeleton() {
     return (
         <>
-            <div className=" flex flex-col w-full max-w-[50vw] my-10 p-4 space-y-4 animate-pulse">
+            <div className=" flex flex-col w-full max-w-[50vw] max-md:min-w-[90vw] my-10 p-4 space-y-4 animate-pulse">
 
                 <div className="flex justify-between items-start">
                     <div className="flex flex-col space-y-1">

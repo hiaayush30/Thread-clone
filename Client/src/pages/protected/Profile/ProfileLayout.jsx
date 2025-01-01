@@ -14,7 +14,7 @@ function ProfileLayout() {
   const { data, isLoading, isError } = useUserDetailsQuery(params.id);
   dispatch(setUserProfile(data?.user));
   const { myInfo } = useSelector(state => state.service)
-  if (isLoading) return <div className='flex justify-center min-h-screen'><ProfileLayoutSkeleton /></div>
+  if (isLoading) return <div className='flex justify-center min-h-screen min-w-screen'><ProfileLayoutSkeleton /></div>
   if (isError) return <Error/>
   return (
     <div className='flex flex-col md:w-[50vw] mx-auto w-[90vw] min-h-screen'>

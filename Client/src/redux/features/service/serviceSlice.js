@@ -44,17 +44,41 @@ export const serviceSlice = createSlice({
             state.user = action.payload;
         },
         setAllPosts: (state, action) => {
-            const newPosts = [...action.payload];
-            state.allPosts = [...state.allPosts, ...newPosts].sort((a,b)=> new Date(b.createdAt) - new Date(a.createdAt))
+            const newPostArr = [...action.payload];
+            if (state.allPosts.length === 0) {
+              state.allPosts = newPostArr;
+              return;
+            }
+            const existingPosts = [...state.allPosts];
+            newPostArr.forEach((e) => {
+              const existingIndex = existingPosts.findIndex((i) => {
+                return i._id === e._id;
+              });
+              if (existingIndex !== -1) {
+                existingPosts[existingIndex] = e;
+              } else {
+                existingPosts.push(e);
+              }
+            });
+            state.allPosts = existingPosts;
         },
         addSinglePost: (state, action) => {
-            let updatedArr = [action.payload,...state.allPosts];
-            state.allPosts = [...updatedArr].sort((a,b)=> new Date(b.createdAt) - new Date(a.createdAt));
-        },
+            let newArr = [...state.allPosts];
+            let updatedArr = [action.payload, ...newArr];
+            let uniqueArr = new Set();
+            let uniquePosts = updatedArr.filter((e) => {
+              if (!uniqueArr.has(e._id)) {
+                uniqueArr.add(e);
+                return true;
+              }
+              return false;
+            });
+            state.allPosts = [...uniquePosts];
+          },
         deletePost: (state) => {
             let postArr = [...state.allPosts];
-            let newArr = postArr.filter(e => e._id != state.postId);
-            state.allPosts = newArr.sort((a,b)=> new Date(b.createdAt) - new Date(a.createdAt));;
+            let newArr = postArr.filter((e) => e._id !== state.postId);
+            state.allPosts = newArr;
         },
         addPostId: (state, action) => {
             state.postId = action.payload;

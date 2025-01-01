@@ -94,7 +94,7 @@ export const serviceApi = createApi({
         followUser: builder.mutation({
             query: (id) => ({
                 url: `/user/follow/${id}`,
-                method: 'POST'
+                method: 'PUT'
             }),
             invalidatesTags: (result, error, args) => [{ type: 'User', id: args.id }],
         }),

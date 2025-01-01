@@ -11,20 +11,20 @@ import { toast } from 'react-toastify';
 import CommentModel from '../modals/CommentModel';
 
 function Post({ post, refetch }) {
+    console.log('Post', post);
     const dispatch = useDispatch();
     const { myInfo, darkMode } = useSelector(state => state.service);
     const navigate = useNavigate();
     const [menuOpen, setMenuOpen] = useState(false);
     const [postLiked, setPostLiked] = useState(() => {
-        if (post.likes.some(post => post._id == myInfo._id)) return true;
+        if (post?.likes?.some(post => post._id == myInfo._id)) return true;
         return false;
     })
     const [commentModel, setCommentModel] = useState(false);
     const [reposted, setReposted] = useState(() => {
-        if(myInfo.reposts.some(e => post._id == e._id)) return true;
+        if (myInfo.reposts.some(e => post?._id == e._id)) return true;
         return false;
     })
-    console.log(reposted);
     const [admin, setAdmin] = useState(false);
     const checkIsAdmin = () => {
         if (post.admin._id === myInfo._id) setAdmin(true);
@@ -161,12 +161,14 @@ function Post({ post, refetch }) {
                 <div className='mx-11 flex gap-3 text-slate-500 '>
                     <div className="relative w-8 h-8">
                         {/* Bottom Circle */}
-                        <div
+                        {post?.comments?.length >= 2 && <div
                             className="absolute w-8 h-8 bg-zinc-700 rounded-full left-0 top-0 text-white flex justify-center items-center">
                             {'+' + (post?.comments.length - 1)}
-                        </div>
+                        </div>}
                         {/* Top Circle */}
-                        <div className="bg-[url('/errorImage.jpg')] absolute w-8 h-8 rounded-full right-6 top-1"></div>
+                        {post?.comments?.length >= 1 && <div className="absolute w-8 h-8 rounded-full right-6 top-1 dark:bg-zinc-700 bg-white">
+                            <img src={post.comments[0]?.admin.profilePic} className='h-full w-full rounded-full object-cover' />
+                        </div>}
                     </div>
                     <div>{post?.comments.length} replies</div>
                     <Link onClick={(e) => e.stopPropagation()}

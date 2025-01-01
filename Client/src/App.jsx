@@ -13,6 +13,7 @@ import SinglePost from './pages/protected/SinglePost'
 import LandingPage from './pages/LandingPage'
 import { useMyInfoQuery } from './redux/api'
 import HeaderSkeleton from './components/skeletons/HeaderSkeleton'
+import LikedPosts from './pages/protected/LikedPosts'
 
 // React Router renders parent routes and
 // their nested child routes together. (using Outlet)
@@ -28,6 +29,7 @@ function App() {
             <Route path='' element={<Home />} />
             <Route path='post/:id' element={<SinglePost />} />
             <Route path='search' element={<Search />} />
+            <Route path='likes' element={<LikedPosts />} />
             <Route path='profile/' element={<ProfileLayout />}>
               <Route path='threads/:id' element={<Threads />} />
               <Route path='replies/:id' element={<Replies />} />
