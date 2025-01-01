@@ -162,6 +162,7 @@ const updateProfile = async (req, res) => {  //only updating bio and profilePic
         form.parse(req, async (err, fields, files) => {
             if (err) return res.status(BAD_REQUEST).json({ message: "Formidable error:" + err })
             console.log({ fields, files });
+            let image = null;
             if (files.media) {
                 if (req.user.public_id) {  //delete exisiting image
                     await cloudinary.uploader.destroy(req.user.public_id, (error, result) => {
@@ -177,16 +178,17 @@ const updateProfile = async (req, res) => {  //only updating bio and profilePic
                         message: "Error while uploading pic"
                     })
                 }
-                console.log(uploadedImage)
-                await UserModel.findByIdAndUpdate(req.user._id, {
-                    profilePic: uploadedImage.secure_url,
-                    public_id: uploadedImage.public_id,
-                    ...(fields.text && { bio: fields.text }) // Add 'bio' only if 'fields.text' exists
-                }, { new: true })
-                return res.status(CREATED).json({
-                    message: 'profile updated succcessfully'
-                })
+                image = uploadedImage;
+                console.log(image)
             }
+            await UserModel.findByIdAndUpdate(req.user._id, {
+                profilePic: image?.secure_url,
+                public_id: image?.public_id,
+                ...(fields.text && { bio: fields.text }) // Add 'bio' only if 'fields.text' exists
+            }, { new: true })
+            return res.status(CREATED).json({
+                message: 'profile updated succcessfully'
+            })
         })
     } catch (err) {
         console.log('update profile error:' + err)
@@ -218,9 +220,9 @@ const searchUser = async (req, res) => {
 
 const myInfo = async (req, res) => {
     try {
-       res.status(OK).json({
-        me:req.user
-       })
+        res.status(OK).json({
+            me: req.user
+        })
     } catch (err) {
         console.log('myInfo Error:' + err);
         res.status(INTERNAL_SERVER_ERROR).json({

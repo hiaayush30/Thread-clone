@@ -12,7 +12,8 @@ export const serviceSlice = createSlice({
         user: null,
         allPosts: [],
         postId: null,
-        searchedUsers: []
+        searchedUsers: [],
+        userProfile: null
     },
     reducers: {
         setOpenAddPostModel: (state, action) => {
@@ -43,39 +44,40 @@ export const serviceSlice = createSlice({
             state.user = action.payload;
         },
         setAllPosts: (state, action) => {
-            const newPosts = [...action.payload];
-            // if (state.allPosts.length === 0) {
-            //     state.allPosts = newPosts;
-            // }
-            // const existingPosts = [...state.allPosts];
-            // newPosts.forEach(post => {
-            //     const existingIndex = existingPosts.findIndex(i => {
-            //         return i._id == post._id
-            //     });
-            //     if (existingIndex != 1) {
-            //         existingPosts[existingIndex] = post;
-            //     } else {
-            //         existingPosts.push(post);
-            //     }
-            // })
-            state.allPosts =[...state.allPosts,...newPosts];
+            const newPostArr = [...action.payload];
+            if (state.allPosts.length === 0) {
+              state.allPosts = newPostArr;
+              return;
+            }
+            const existingPosts = [...state.allPosts];
+            newPostArr.forEach((e) => {
+              const existingIndex = existingPosts.findIndex((i) => {
+                return i._id === e._id;
+              });
+              if (existingIndex !== -1) {
+                existingPosts[existingIndex] = e;
+              } else {
+                existingPosts.push(e);
+              }
+            });
+            state.allPosts = existingPosts;
         },
         addSinglePost: (state, action) => {
-            let updatedArr = [action.payload.newPost, ...state.allPosts];
-            //all below will come in use when 'update post' function would be there
+            let newArr = [...state.allPosts];
+            let updatedArr = [action.payload, ...newArr];
             let uniqueArr = new Set();
-            let uniquePosts = updatedArr.filter(post => {
-                if (!uniqueArr.has(post._id)) {
-                    uniqueArr.add(post);
-                    return true;
-                }
-                return false;
-            })
-            state.allPosts = uniquePosts;
-        },
-        deletePost: (state, action) => {
+            let uniquePosts = updatedArr.filter((e) => {
+              if (!uniqueArr.has(e._id)) {
+                uniqueArr.add(e);
+                return true;
+              }
+              return false;
+            });
+            state.allPosts = [...uniquePosts];
+          },
+        deletePost: (state) => {
             let postArr = [...state.allPosts];
-            let newArr = postArr.filter(e => e._id != state.postId);
+            let newArr = postArr.filter((e) => e._id !== state.postId);
             state.allPosts = newArr;
         },
         addPostId: (state, action) => {
@@ -83,6 +85,9 @@ export const serviceSlice = createSlice({
         },
         addToSearchUsers: (state, action) => {
             state.searchedUsers = action.payload;
+        },
+        setUserProfile: (state, action) => {
+            state.userProfile = action.payload;
         }
     },
 })
@@ -99,5 +104,6 @@ export const {
     setOpenAddPostModel,
     setDarkMode,
     setOpenEditProfileModel,
-    setOpenMainMenu } = serviceSlice.actions
+    setOpenMainMenu,
+    setUserProfile } = serviceSlice.actions
 export default serviceSlice.reducer

@@ -40,6 +40,7 @@ const addPost = async (req, res) => {
                     public_id: uploadedImage.public_id
                 })
             })
+            await post.populate({path:'admin',select:'-password'});
             await UserModel.findByIdAndUpdate(req.user._id, {
                 $push: { threads: post._id }
             })
@@ -67,9 +68,9 @@ const getAllPosts = async (req, res) => {
             //descending order ie the latest at the top  
             .skip((page - 1) * limit)
             .limit(limit)
+            .populate({ path: 'comments', populate: { path: 'admin', select: '-password' } })
             .populate({ path: 'likes', select: '-password' })
             .populate({ path: 'admin', select: '-password' })
-            .populate({ path: 'comments', populate: { path: 'admin', select: '-password' } })
         //to get the names of those who commented
         res.status(OK).json({
             message: 'posts fetched successfully',

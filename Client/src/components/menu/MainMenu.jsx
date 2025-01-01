@@ -10,7 +10,7 @@ import { toast, ToastContainer } from 'react-toastify';
 function MainMenu() {
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  const darkMode = useSelector(state => state.service.darkMode);
+  const {darkMode,myInfo} = useSelector(state => state.service);
   const [logout,logoutData] = useLogoutMutation();
   const handleLogout= async()=>{
     dispatch(setOpenMainMenu(false))
@@ -36,7 +36,7 @@ function MainMenu() {
         Theme &nbsp; {darkMode ? <MdOutlineDarkMode size={20}/> : <CiLight size={20} />}</div>
       <div onClick={() => {
         dispatch(setOpenMainMenu(false))
-        navigate('/profile')
+        navigate(`/profile/threads/${myInfo._id}`)
       }}
         className='px-2 py-2 hover:scale-105  min-w-[100px]'>My Profile</div>
       <div onClick={handleLogout}

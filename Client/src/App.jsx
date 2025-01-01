@@ -1,5 +1,4 @@
 import Header from './components/common/Header'
-import Loading from './components/common/Loading'
 import { BrowserRouter, Routes, Route } from 'react-router-dom'
 import Home from './pages/protected/Home'
 import Search from './pages/protected/Search'
@@ -12,14 +11,16 @@ import Replies from './pages/protected/Profile/Replies'
 import Reposts from './pages/protected/Profile/Reposts'
 import SinglePost from './pages/protected/SinglePost'
 import LandingPage from './pages/LandingPage'
-import { useSelector } from 'react-redux'
 import { useMyInfoQuery } from './redux/api'
+import HeaderSkeleton from './components/skeletons/HeaderSkeleton'
+import LikedPosts from './pages/protected/LikedPosts'
 
 // React Router renders parent routes and
 // their nested child routes together. (using Outlet)
 
 function App() {
-  const {data} = useMyInfoQuery();
+  const {data,isLoading} = useMyInfoQuery();
+  if(isLoading) return <div className='min-h-screen bg-zinc-900'><HeaderSkeleton/></div>
   return (
     <div className='min-h-screen'>
       <BrowserRouter>
@@ -28,6 +29,7 @@ function App() {
             <Route path='' element={<Home />} />
             <Route path='post/:id' element={<SinglePost />} />
             <Route path='search' element={<Search />} />
+            <Route path='likes' element={<LikedPosts />} />
             <Route path='profile/' element={<ProfileLayout />}>
               <Route path='threads/:id' element={<Threads />} />
               <Route path='replies/:id' element={<Replies />} />
