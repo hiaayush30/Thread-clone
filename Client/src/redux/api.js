@@ -22,10 +22,11 @@ export const serviceApi = createApi({
             invalidatesTags: ['Me']
         }),
         signup: builder.mutation({
-            query: (data) => ({
+            query: (data) => ({ 
                 url: '/user/signup',
                 method: 'POST',
                 body: data
+                
             }),
             invalidatesTags: ['Me']
         }),
