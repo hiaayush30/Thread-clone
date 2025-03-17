@@ -33,8 +33,8 @@ export const serviceApi = createApi({
                 try {
                     const { data } = await queryFulfilled;
                     localStorage.setItem('token',data.token);
+                    dispatch(serviceApi.util.invalidateTags(['Me']));
                 } catch (err) {
-                    dispatch(addMyInfo(null))
                     console.log(err);
                 }
             }

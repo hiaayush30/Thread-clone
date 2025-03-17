@@ -71,7 +71,7 @@ export default function Register() {
         </div>}
 
         <div className="flex flex-col">
-          <input {...register("password", { required: "password is required" })} placeholder="Enter your password"
+          <input type="password" {...register("password", { required: "password is required" })} placeholder="Enter your password"
             className='w-[100%] p-1 my-3 rounded-md outline-none' />
           {errors.password && <span className="text-red-600">{errors.password.message}</span>}
         </div>
