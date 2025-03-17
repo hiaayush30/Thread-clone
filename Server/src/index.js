@@ -18,6 +18,12 @@ app.use(express.json());
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname,'public')));
 
+app.get('/api/health',(req,res)=>{
+    res.status(200).json({
+        message:'server running'
+    })
+})
+
 app.use('/api/user',userRouter);
 app.use('/api/post',postRouter);
 app.use('/api/comment',commentRouter);
