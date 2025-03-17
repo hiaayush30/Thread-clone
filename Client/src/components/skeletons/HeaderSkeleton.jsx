@@ -11,7 +11,7 @@ function HeaderSkeleton() {
                 </div>
             </div>
             <div className="md:hidden animate-pulse">
-                <div className='flex h-20 justify-around items-center sticky top-0 py-1'>
+                <div className='flex h-20 justify-around items-center sticky top-5 py-1'>
                     <div className="w-12 h-12"></div>
                     <div className="absolute right-5 w-12 h-12">
                     </div>
