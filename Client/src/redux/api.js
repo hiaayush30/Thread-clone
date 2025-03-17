@@ -55,6 +55,15 @@ export const serviceApi = createApi({
                 method: 'POST',
                 credentials:'include'
             }),
+            invalidatesTags: ['Me',"Post","User"],
+            async onQueryStarted(params, { dispatch, queryFulfilled }) {
+                try {
+                    await queryFulfilled;
+                    dispatch(addMyInfo(null));
+                } catch (err) {
+                    console.log(err);
+                }
+            }
         }),
         userDetails: builder.query({
             query: (id) => ({
