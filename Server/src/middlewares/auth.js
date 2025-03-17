@@ -3,7 +3,7 @@ const { FORBIDDEN } = require('../constants/statusCodes');
 const { UserModel } = require('../models/User');
 
 const userAuth = async (req, res, next) => {
-    let token = req.cookies.token;
+    let token = req.headers['authorization'];
     if (!token) {
         return res.status(FORBIDDEN).json({
             message: 'token not found,please login first'
@@ -11,6 +11,7 @@ const userAuth = async (req, res, next) => {
     }
     try {
         token = token.split(' ')[1]
+        console.log(token);
         const decoded = jwt.verify(token, process.env.JWT_SECRET);
         req.user = await UserModel.findById(decoded._id)
             .select('-password')

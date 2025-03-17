@@ -13,7 +13,7 @@ export const serviceSlice = createSlice({
         allPosts: [],
         postId: null,
         searchedUsers: [],
-        userProfile: null
+        userProfile: null,
     },
     reducers: {
         setOpenAddPostModel: (state, action) => {
@@ -46,19 +46,19 @@ export const serviceSlice = createSlice({
         setAllPosts: (state, action) => {
             const newPostArr = [...action.payload];
             if (state.allPosts.length === 0) {
-              state.allPosts = newPostArr;
-              return;
+                state.allPosts = newPostArr;
+                return;
             }
             const existingPosts = [...state.allPosts];
             newPostArr.forEach((e) => {
-              const existingIndex = existingPosts.findIndex((i) => {
-                return i._id === e._id;
-              });
-              if (existingIndex !== -1) {
-                existingPosts[existingIndex] = e;
-              } else {
-                existingPosts.push(e);
-              }
+                const existingIndex = existingPosts.findIndex((i) => {
+                    return i._id === e._id;
+                });
+                if (existingIndex !== -1) {
+                    existingPosts[existingIndex] = e;
+                } else {
+                    existingPosts.push(e);
+                }
             });
             state.allPosts = existingPosts;
         },
@@ -67,14 +67,14 @@ export const serviceSlice = createSlice({
             let updatedArr = [action.payload, ...newArr];
             let uniqueArr = new Set();
             let uniquePosts = updatedArr.filter((e) => {
-              if (!uniqueArr.has(e._id)) {
-                uniqueArr.add(e);
-                return true;
-              }
-              return false;
+                if (!uniqueArr.has(e._id)) {
+                    uniqueArr.add(e);
+                    return true;
+                }
+                return false;
             });
             state.allPosts = [...uniquePosts];
-          },
+        },
         deletePost: (state) => {
             let postArr = [...state.allPosts];
             let newArr = postArr.filter((e) => e._id !== state.postId);

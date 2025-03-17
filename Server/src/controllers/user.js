@@ -59,14 +59,15 @@ const userLogin = async (req, res) => {
             })
         }
         const token = user.getJWT();
-        res.cookie('token', 'Bearer ' + token, {
-            httpOnly: true,
-            maxAge: Date.now() + 7 * 24 * 60 * 60 * 1000,
-            sameSite: 'none',
-            secure: true,
-        });
+        // res.cookie('token', 'Bearer ' + token, {
+        //     httpOnly: true,
+        //     maxAge: Date.now() + 7 * 24 * 60 * 60 * 1000,
+        //     sameSite: 'none',
+        //     secure: true,
+        // });
         res.status(OK).json({
-            message: 'logged in successfully'
+            message: 'logged in successfully',
+            "token":token
         })
     } catch (err) {
         console.log('login error:' + err);

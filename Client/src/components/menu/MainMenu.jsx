@@ -21,10 +21,9 @@ function MainMenu() {
         autoClose:1000,
         theme:darkMode ? 'dark':'light'
       });
-      dispatch(addMyInfo(null));
-      // setTimeout(()=>{
-      //   window.location.reload();
-      // },1000)
+      setTimeout(()=>{
+        window.location.reload();
+      },1000)
     }
   }
   useEffect(()=>{

@@ -5,8 +5,17 @@ import { addMyInfo, addSinglePost, addUser, deletePost, setAllPosts } from './fe
 export const serviceApi = createApi({
     reducerPath: 'serviceApi',
     baseQuery: fetchBaseQuery({
-        baseUrl: import.meta.env.VITE_BE_DOMAIN+"/api",
-        credentials: 'include' //it will also send cookies with requests
+        baseUrl: import.meta.env.VITE_BE_DOMAIN + "/api",
+        credentials: 'include', //it will also send cookies with requests,
+        prepareHeaders: (headers) => {
+            const token = localStorage.getItem('token'); // Get token before each request
+
+            if (token) {
+                headers.set('Authorization', `Bearer ${token}`);
+            }
+
+            return headers;
+        }
     }),
     keepUnusedDataFor: 60 * 60 * 24 * 7,
     tagTypes: ['Post', 'User', 'Me'],
@@ -19,32 +28,39 @@ export const serviceApi = createApi({
                 method: 'POST',
                 body: data,
             }),
-            invalidatesTags: ['Me']
+            invalidatesTags: ['Me'],
+            async onQueryStarted(params, { dispatch, queryFulfilled }) {
+                try {
+                    const { data } = await queryFulfilled;
+                    localStorage.setItem('token',data.token);
+                } catch (err) {
+                    dispatch(addMyInfo(null))
+                    console.log(err);
+                }
+            }
         }),
         signup: builder.mutation({
-            query: (data) => ({ 
+            query: (data) => ({
                 url: '/user/signup',
                 method: 'POST',
                 body: data
-                
+
             }),
             invalidatesTags: ['Me']
         }),
         myInfo: builder.query({
             query: () => ({
                 url: '/user/myInfo',
-                method: 'GET'
+                method: 'GET',
+                credentials: 'include',
             }),
             providesTags: ['Me'],
-            // transformErrorResponse,
-            // transformResponse
-            //pessimistic update
             async onQueryStarted(params, { dispatch, queryFulfilled }) {
                 try {
                     const { data } = await queryFulfilled;
-                    console.log('resposne on myInfo request', data);
                     dispatch(addMyInfo(data));
                 } catch (err) {
+                    dispatch(addMyInfo(null))
                     console.log(err);
                 }
             }
@@ -53,13 +69,13 @@ export const serviceApi = createApi({
             query: () => ({
                 url: '/user/logout',
                 method: 'POST',
-                credentials:'include'
+                credentials: 'include'
             }),
-            invalidatesTags: ['Me',"Post","User"],
+            invalidatesTags: ['Me'],
             async onQueryStarted(params, { dispatch, queryFulfilled }) {
                 try {
                     await queryFulfilled;
-                    dispatch(addMyInfo(null));
+                    localStorage.setItem('token', '');
                 } catch (err) {
                     console.log(err);
                 }
@@ -176,7 +192,7 @@ export const serviceApi = createApi({
                 method: 'POST',
                 body: data
             }),
-            invalidatesTags: ['User','Post']
+            invalidatesTags: ['User', 'Post']
         }),
         deleteComment: builder.mutation({
             query: ({ postId, id }) => ({
