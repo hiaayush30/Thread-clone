@@ -10,7 +10,7 @@ const { commentRouter } = require('./routes/comment');
 const app = express();
 
 app.use(cors({
-    origin:process.env.FE_DOMAIN,
+    origin:[process.env.FE_DOMAIN,'http://localhost:5173'],
     credentials:true
 }))
 app.use(express.json());
