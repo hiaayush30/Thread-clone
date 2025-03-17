@@ -63,7 +63,7 @@ const userLogin = async (req, res) => {
             httpOnly: true,
             maxAge: Date.now() + 7 * 24 * 60 * 60 * 1000,
             sameSite: 'none',
-            secure: true
+            secure: true,
         });
         res.status(OK).json({
             message: 'logged in successfully'

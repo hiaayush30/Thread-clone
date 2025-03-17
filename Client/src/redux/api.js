@@ -54,7 +54,7 @@ export const serviceApi = createApi({
                 url: '/user/logout',
                 method: 'POST'
             }),
-            invalidatesTags: ['Me']
+            invalidatesTags: ['Me',"Post","User"],
         }),
         userDetails: builder.query({
             query: (id) => ({
