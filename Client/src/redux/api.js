@@ -52,7 +52,8 @@ export const serviceApi = createApi({
         logout: builder.mutation({
             query: () => ({
                 url: '/user/logout',
-                method: 'POST'
+                method: 'POST',
+                credentials:'include'
             }),
             invalidatesTags: ['Me',"Post","User"],
         }),
