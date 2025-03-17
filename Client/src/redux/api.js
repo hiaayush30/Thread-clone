@@ -5,7 +5,7 @@ import { addMyInfo, addSinglePost, addUser, deletePost, setAllPosts } from './fe
 export const serviceApi = createApi({
     reducerPath: 'serviceApi',
     baseQuery: fetchBaseQuery({
-        baseUrl: 'http://localhost:3000/api',
+        baseUrl: process.env.FE_DOMAIN,
         credentials: 'include' //it will also send cookies with requests
     }),
     keepUnusedDataFor: 60 * 60 * 24 * 7,
