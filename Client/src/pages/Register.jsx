@@ -9,7 +9,6 @@ import { useDispatch } from "react-redux";
 import { addMyInfo } from "../redux/features/service/serviceSlice";
 
 export default function Register() {
-  const dispatch = useDispatch();
   const navigate=useNavigate();
   const [loginUser, loginUserData] = useLoginMutation();
   const [signupUser,signupUserData] = useSignupMutation();
@@ -27,7 +26,7 @@ export default function Register() {
   const onSubmit = async (data) => {
     if (login) {
      const response = await loginUser(data);
-      console.log(loginUserData)
+      localStorage.setItem('token',response.data.token);
       if (response.error) {
         toast.error(response.error.data.message,toastOptions)
       }else{
