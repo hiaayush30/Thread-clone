@@ -5,7 +5,7 @@ import { addMyInfo, addSinglePost, addUser, deletePost, setAllPosts } from './fe
 export const serviceApi = createApi({
     reducerPath: 'serviceApi',
     baseQuery: fetchBaseQuery({
-        baseUrl: import.meta.env.VITE_BE_DOMAIN,
+        baseUrl: import.meta.env.VITE_BE_DOMAIN+"/api",
         credentials: 'include' //it will also send cookies with requests
     }),
     keepUnusedDataFor: 60 * 60 * 24 * 7,
