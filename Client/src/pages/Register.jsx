@@ -51,7 +51,7 @@ export default function Register() {
         backgroundSize: 'cover',
       }}>
       <form onSubmit={handleSubmit(onSubmit)}
-        className='transition-all duration-200 ease-in-out md:w-[30%] mt-20 max-md:mt-10 my-5 flex flex-col gap-3 px-5 py-4 border-2 rounded-md bg-slate-100 opacity-80 max-md:opacity-95'>
+        className='transition-all duration-200 ease-in-out w-[80%] sm:w-[70%] md:w-[50%] lg:w-[25%] mt-20 max-md:mt-10 my-5 flex flex-col gap-3 px-5 py-4 border-2 rounded-md backdrop-blur-lg bg-slate-400/20 opacity-80 max-md:opacity-95'>
         <div className="text-center font-semibold text-xl">{login ? "Login" : "Signup"}</div>
 
         <div className="flex flex-col">
